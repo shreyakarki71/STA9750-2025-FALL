@@ -12,7 +12,7 @@ website:
 
 format:
   html:
-    theme: pulse  
+    theme: minty  
     toc: false
 
 editor:
