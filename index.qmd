@@ -1,7 +1,7 @@
 ---
 title: "Shreya Karki | Data, Business, and New Experiences"
 ---
-#Welcome
+# Welcome
 
 Hi, I’m Shreya , a graduate student at Baruch College, pursuing my MS in Business Analytics.  
 
@@ -9,7 +9,7 @@ My journey has taken me through Nepal, India, Australia, and now the United Stat
 
 Currently, I’m focused on building my path toward becoming a Business Analyst, while also nurturing my love for travel, food, and discovering new experiences. 
 
-###Connect with me
+### Connect with me
 
 [**LinkedIn**](https://www.linkedin.com/in/shreya-karki/) – Learn more about my professional journey  
 
