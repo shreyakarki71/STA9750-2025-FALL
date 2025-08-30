@@ -12,9 +12,8 @@ website:
 
 format:
   html:
-    theme: flatly      # clean base theme
+    theme: minty   
     toc: false
-    css: styles.css    # custom color tweaks
 
 editor:
   mode: source
