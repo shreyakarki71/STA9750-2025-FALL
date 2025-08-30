@@ -1,16 +1,20 @@
 ---
-title: "Shreya Karki — STA 9750"
+title: "Shreya Karki | Data, Business, and New Experiences"
 ---
-Hi! My name is **Shreya**, and I am a graduate student at Baruch College, pursuing my **MS in Business Analytics**.  
+
+Hi, I’m **Shreya** , a graduate student at **Baruch College**, pursuing my **MS in Business Analytics**.  
 
 ## About Me  
 
-I have had the chance to call a few different countries my home — born and raised in **Nepal**, did my schooling in **India**, and completed my **undergraduate degree in International Business** in **Australia** before moving to the **United States** for graduate study.  
+My journey has taken me through **Nepal, India, Australia, and now the United States**, shaping me into someone who is **adaptable, curious, and eager to keep learning**.  
 
-These experiences have made me adaptable, curious, and always eager to learn something new. Now, I am diving into the world of **data analytics** and shaping my path toward becoming a **Business Analyst**,  while still keeping a love for travel, food, and discovering new experiences along the way!  
- 
+Currently, I’m focused on building my path toward becoming a **Business Analyst**, while also nurturing my love for **travel, food, and discovering new experiences**.  
 
-To learn more about my professional journey, connect with me on [LinkedIn](https://www.linkedin.com/in/shreya-karki/)  
+## Connect with Me  
+
+[**LinkedIn**](https://www.linkedin.com/in/shreya-karki/) – Learn more about my professional journey  
+
+
 
 ```{r}
 #| include: false

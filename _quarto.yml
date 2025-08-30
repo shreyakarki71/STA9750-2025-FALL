@@ -4,17 +4,17 @@ project:
 
 website:
   title: "STA 9750 Submission Material"
-  description:
-    Course Projects for STA 9750 at Baruch College
+  description: "Course projects for STA 9750 at Baruch College"
   site-url: "https://shreyakarki71.github.io/STA9750-2025-FALL/"
   navbar:
     background: primary
     search: false
-    
+
 format:
   html:
-    theme: journal
+    theme: flatly      # clean base theme
     toc: false
+    css: styles.css    # custom color tweaks
 
 editor:
   mode: source
