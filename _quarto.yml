@@ -3,13 +3,21 @@ project:
   output-dir: docs
 
 website:
-  title: "STA 9750 Submission Material"
+  title: "STA 9750 "
   description: "Course projects for STA 9750 at Baruch College"
   site-url: "https://shreyakarki71.github.io/STA9750-2025-FALL/"
   navbar:
     background: primary
     search: false
-
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "Mini-Projects"
+        menu:
+          - text: "MP01"
+            href: mp01.html
+          - text: "MP02"
+            href: mp02.html
 format:
   html:
     theme: minty  
