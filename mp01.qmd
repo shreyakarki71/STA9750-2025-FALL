@@ -35,7 +35,7 @@ By systematically analyzing this data, three data-driven press releases are writ
 The official Netflix **Top 10 weekly datasets** were retrieved directly from [Netflix Tudum](https://www.netflix.com/tudum/top10).
 
 ```{r data_import,eval=TRUE, echo=TRUE, include=TRUE}
-# Create "data/mp01" folder if it does not exist yet
+# Create data/mp01 folder if it does not exist yet
 if(!dir.exists(file.path("data", "mp01"))){
   dir.create(file.path("data", "mp01"), showWarnings=FALSE, recursive=TRUE)
 }
@@ -200,7 +200,7 @@ global_reach <- COUNTRY_TOP_10 |>
   count()
 ```
 
-With a presence in **`r global_reach$n` countries**, Netflix operates at a scale that enables both global blockbuster strategies and localized content approaches. 
+With a presence in **`r global_reach$n` countries**, Netflix operates at a global scale. 
 
 ## Performance of Non-English Language Films
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
@@ -222,7 +222,7 @@ longest_film <- GLOBAL_TOP_10 |>
   slice_max(runtime_in_minutes, n = 1)
 ```
 
-With a runtime of **`r round(longest_film$runtime_in_minutes[[1]])` minutes**, **`r longest_film$show_title[[1]]`** demonstrates that even extended-length features can achieve strong global engagement.
+With a runtime of **`r round(longest_film$runtime_in_minutes[[1]])` minutes**, **`r longest_film$show_title[[1]]`** is the longest film Non-English film to have ever appeared in the Netflix global Top 10. 
 
 ## Most-Watched Shows and Films in Each Category
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
@@ -271,7 +271,7 @@ fewest_weeks <- COUNTRY_TOP_10 |>
   filter(n == min(n))
 ```
 
-With just **`r unique(fewest_weeks$n)` weeks** of chart data, **`r paste(fewest_weeks$country_name, collapse = ", ")`** represent(s) the smallest footprint in Netflix’s Top 10 records.
+With just **`r unique(fewest_weeks$n)` weeks** of chart data, **`r paste(fewest_weeks$country_name, collapse = ", ")`** represents the smallest footprint in Netflix’s Top 10 records.
 
 
 ## Squid Games Total Viewership Across All Seasons
@@ -282,7 +282,7 @@ squid_games <-GLOBAL_TOP_10 |>
   summarize(total_hours = sum(weekly_hours_viewed))
 ```
 
-Across all seasons, *Squid Game* has generated `r format(round(squid_games$total_hours, 0), big.mark = ",")`
+Across all seasons, *Squid Game* has generated `r format(round(squid_games$total_hours, 0), big.mark = ",", scientific = FALSE)`
 hours of viewing, confirming its place as one of Netflix’s most impactful franchises worldwide.
 
 ## Red Notice's Debut Year View Count
@@ -297,7 +297,7 @@ red_notice <- GLOBAL_TOP_10 |>
 ```
 
 Released in 2021, *Red Notice* reached approximately 
-`r format(round(red_notice$approx_views, 0), big.mark = ",")` views,illustrating the blockbuster potential of Netflix original films.
+`r format(round(red_notice$approx_views, 0), big.mark = ",")` views, illustrating the blockbuster potential of Netflix original films.
 
 ## Slow Climb to the Top: Films That Grew Into #1 Hits
 ```{r,eval=TRUE, echo=TRUE, include=TRUE}
@@ -445,7 +445,7 @@ ggplot(season_stats, aes(x = season, y = appearances)) +
 
 Part of its exceptional popularity in Serbia can be traced to the casting of local actor Nikola Đuričko as Yuri, the smuggler in season four. His performance generated buzz in local media and gave Serbian viewers a personal connection to the series.
  
-The final season arrives with this unique legacy: a series that started as a nostalgic American story but became a global phenomenon, proving that good stories—and good casting choices—can create unexpected connections across borders.
+The final season arrives with this unique legacy: a series that started as a nostalgic American story but became a global phenomenon, proving that good stories and good casting choices can create unexpected connections across borders.
 
 ## Hindi Films Make Global Box Office Waves on Netflix
 
@@ -568,7 +568,7 @@ kpop_countries <- COUNTRY_TOP_10 |>
 
 *K-Pop Demon Hunters* has  maintained an impressive presence in Netflix's global top 10 ever since its release, remaining in the charts for `r kpop_stats$total_weeks` consecutive weeks. 
 
-The series achieved a peak rank of `r kpop_stats$best_rank` worldwide while accumulating `r round(kpop_stats$total_hours / 1e6, 1)` million viewing hours—proving that innovative genre fusion can create its own category of hit content.
+The series achieved a peak rank of `r kpop_stats$best_rank` worldwide while accumulating `r round(kpop_stats$total_hours / 1e6, 1)` million viewing hours, proving that innovative genre fusion can create its own category of hit content.
 
 The series turned cultural specificity into a strategic advantage, blending K-pop's massive global appeal with supernatural storytelling to create must-watch television. Rather than limiting its reach, the show's unique identity became its superpower, building a dedicated international audience that returned week after week.
 
