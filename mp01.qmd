@@ -20,19 +20,15 @@ editor: visual
 
 Netflix is one of the largest global streaming platforms, reaching audiences across many countries and languages.
 
-This project explores Netflix’s **Top 10 data (global and per-country)** to answer key questions:
+This project explores Netflix's **Top 10 data** (global and per-country) to answer key questions:
 
 - In how many countries does Netflix operate and how does content performance vary regionally? 
 - Which films and shows demonstrate sustained audience engagement versus short-term popularity?
 - How does local-language content perform globally, and what does this reveal about evolving viewer preferences?
 
-
 The results are not just technical outputs, they reveal how Netflix identifies hit shows, supports local-language films, and builds worldwide franchises.  
 
-By systematically analyzing this data, three data-driven press releases are written that highlight:
-1. Netflix's global content strategy impact
-2. Regional success patterns in key markets like India  
-3. The rising influence of non-English language films.  
+By systematically analyzing this data, three data-driven press releases are written that highlight success of films.
 
 # Data Acquisition
 
@@ -278,7 +274,7 @@ fewest_weeks <- COUNTRY_TOP_10 |>
 With just **`r unique(fewest_weeks$n)` weeks** of chart data, **`r paste(fewest_weeks$country_name, collapse = ", ")`** represent(s) the smallest footprint in Netflix’s Top 10 records.
 
 
-## Squid Games, total Viewership Across All Seasons
+## Squid Games Total Viewership Across All Seasons
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 # Total viewing hours for Squid Game across all versions
 squid_games <-GLOBAL_TOP_10 |>
@@ -377,7 +373,10 @@ most_popular_show <- debut_counts |> slice_head(n = 1)
 
 The strongest debut came from **`r paste(unique(most_popular_show$show_title), collapse = ", ")`** (**`r paste(unique(most_popular_show$season_title), collapse = ", ")`**), premiering in **`r max(most_popular_show$num_countries)` countries** during its first week (`r most_popular_show$debut_week[1]`).
 
-# Stranger Things Final Season Arrives After Surprising Global Run
+# Press Release
+
+
+## Stranger Things Final Season Arrives After Surprising Global Run
 
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
@@ -425,11 +424,11 @@ season_stats <- COUNTRY_TOP_10 |>
   arrange(season)
 ```
 
-It turns out the small town of Hawkins, Indiana has some big international appeal.  
+Stranger Things has become one of Netflix’s most enduring global hits, appearing in the top 10 for `r stranger_weeks` weeks across `r total_countries` countries. 
 
-As *Stranger Things* prepares for its final season, the data shows the show's reach extended far beyond American suburbs—all the way to unexpected superfans in Serbia.
+While the show’s roots are firmly set in Hawkins, Indiana, its reach has extended far beyond the U.S, with Serbia emerging as an unexpected standout. Audiences there kept the series in their top 10 for `r country_counts$appearances[1]` weeks, reflecting the show’s unusual ability to resonate across cultures.
 
-While the series spent *`r stranger_weeks` weeks* in Netflix's global top 10 across *`r total_countries` countries*, one market stood out with particular dedication. Serbia kept the show in their top 10 for an impressive *`r country_counts$appearances[1]` weeks*.
+Each season didn't just maintain interest, it grew it. The series grew each season in charts, showing how strong storytelling and evolving narratives can keep audiences invested.
 
 **Season-by-Season Growth**
 
@@ -444,109 +443,96 @@ ggplot(season_stats, aes(x = season, y = appearances)) +
   theme_minimal()
 ```
 
-Multiple factors could explain the exceptional popularity in Serbia, including the casting of Serbian actor Nikola Đuričko in a notable role. His performance as the Russian smuggler Yuri in season four generated significant local buzz and media attention, giving Serbian audiences a personal connection to the global phenomenon.
-
-**What the Numbers Tell Us:**
-
-- Great characters and storytelling translate across cultures  
-- Local talent in global productions can drive exceptional engagement
-- A show about small-town America can find passionate fans worldwide
-- Consistent quality keeps audiences coming back season after season  
+Part of its exceptional popularity in Serbia can be traced to the casting of local actor Nikola Đuričko as Yuri, the smuggler in season four. His performance generated buzz in local media and gave Serbian viewers a personal connection to the series.
+ 
 The final season arrives with this unique legacy: a series that started as a nostalgic American story but became a global phenomenon, proving that good stories—and good casting choices—can create unexpected connections across borders.
 
-
-# Hindi Movies Are a Bigger Hit Outside India Than Anyone Expected
+## Hindi Films Make Global Box Office Waves on Netflix
 
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
-# List every Film title that charted in India and count how many weeks it appeared.
-
+# How long each film appeared in India Top 10
 india_films <- COUNTRY_TOP_10 |> 
   filter(country_name == "India", category == "Films") |>
   group_by(show_title) |>
   summarize(weeks_in_india = n()) |>
   arrange(desc(weeks_in_india))
 
-# Do the same for Films in the United States.
+# Do the same for Films in the United States
 us_films <- COUNTRY_TOP_10 |>
   filter(country_name == "United States", category == "Films") |>
   group_by(show_title) |>
   summarize(weeks_in_us = n())
 
-# Define  proxy for Hindi films: titles that charted in India but never charted in the U.S.
-
+# Titles that charted in India but never charted in the U.S.
 hindi_films <- india_films |>
   filter(!show_title %in% us_films$show_title) |>
   arrange(desc(weeks_in_india))
 
-# Within India, compute the share of Film appearances that are from our Hindi films.
+# Compute the share of Film appearances that are from Hindi films
 india_market_share <- COUNTRY_TOP_10 |>
   filter(country_name == "India", category == "Films") |>
-  summarize(total_films_in_india = n(),hindi_films_count = sum(show_title %in% hindi_films$show_title),hindi_market_share = (hindi_films_count / total_films_in_india) * 100)
+  summarize(total_films_in_india = n(),
+            hindi_films_count = sum(show_title %in% hindi_films$show_title),
+            hindi_market_share = (hindi_films_count / total_films_in_india) * 100)
 
-# Growth over time in India for our hindi_films
-hindi_growth <- COUNTRY_TOP_10 |>
+# Hindi Films market share % in India
+hindi_share_pct <- round(india_market_share$hindi_market_share, 1)
+
+# Show top Hindi films 
+top_hindi_hits <- hindi_films |>
+  head(10) |>
+  select(`Film` = show_title, `Weeks in Top 10` = weeks_in_india)
+
+# Top 3 Hindi films 
+top3_hindi <- hindi_films[1:3, ]
+
+# Growth trend over time for Hindi films
+hindi_growth_trend <- COUNTRY_TOP_10 |>
   filter(show_title %in% hindi_films$show_title, country_name == "India") |>
   mutate(year = format(week, "%Y")) |>
   group_by(year) |>
-  summarize(hindi_appearances = n()) |>
+  summarize(total_appearances = n(), .groups = "drop") |>
   arrange(year)
 
-#  How broadly are these hindi_films watched across all countries?
-country_analysis_hindi_films <- COUNTRY_TOP_10 |> 
-  filter(show_title %in% hindi_films$show_title) |>
-  group_by(country_name) |>
-  summarize( hindi_films_watched = n_distinct(show_title),  
-    total_appearances = n() ) |>
-  arrange(desc(total_appearances))
+# Compare earliest and current years
+earliest_year_count <- hindi_growth_trend$total_appearances[1]
+latest_year_count <- hindi_growth_trend$total_appearances[length(hindi_growth_trend$total_appearances)]
 
-# Compute denominators to convert country metrics into percentages.
-total_appearances_all <-     sum(country_analysis_hindi_films$total_appearances)
+if (latest_year_count > earliest_year_count) {
+  hindi_popularity_trend <- "rising"
+} else if (latest_year_count < earliest_year_count) {
+  hindi_popularity_trend <- "declining"
+} else {
+  hindi_popularity_trend <- "stable"
+}
 
-total_films_all <- sum(country_analysis_hindi_films$hindi_films_watched)
-
-#  Convert to percentage shares by country.
-percentage_analysis <- country_analysis_hindi_films |>
-  ungroup() |>
-  mutate(
-    pct_viewership = round((total_appearances / total_appearances_all) * 100, 2),
-    pct_films = round((hindi_films_watched / total_films_all) * 100, 2)
-  ) |>
-  select(country_name, pct_viewership, pct_films)
 ```
 
-Great local stories do not just stay local, they travel in ways we never predicted.
+Hindi blockbusters are no longer just local sensations, they are shaping a new global market for streaming hits. 
 
-The numbers reveal a plot twist worthy of any Bollywood drama: Hindi films, has become an unexpected international success story.
+Hindi films account for `r hindi_share_pct`% of all film appearances in India’s Top 10 charts, underscoring their dominant position in the country’s streaming landscape.
 
-**Where People Are Watching Hindi Films:**
+Some titles became runaway sensations, spending weeks in the rankings. 
 
-- **India**: `r round(percentage_analysis$pct_viewership[1], 1)`% of worldwide Hindi film viewing
-- **Bangladesh**: `r round(percentage_analysis$pct_viewership[2], 1)`% 
-- **Pakistan**: `r round(percentage_analysis$pct_viewership[3], 1)`%
-- **Middle Eastern markets** showing significant engagement
-The data reveals something unexpected about how movies travel across borders.
+- **`r top3_hindi$show_title[1]`** held its spot for `r top3_hindi$weeks_in_india[1]` weeks 
+- **`r top3_hindi$show_title[2]`** stayed for `r top3_hindi$weeks_in_india[2]` weeks, and 
+- **`r top3_hindi$show_title[3]`** logged `r top3_hindi$weeks_in_india[3]` weeks. 
 
+**See the Top 10 ranking of top Hindi films below:**
 ```{r}
-hindi_top5 <- percentage_analysis |>
-  arrange(desc(pct_viewership)) |>
-  head(5) |>
-  rename(
-    Country = country_name,
-    `Viewership Share (%)` = pct_viewership,
-    `Film Share (%)` = pct_films
-  )
-
-datatable(hindi_top5,
-          options = list(searching = FALSE, info = FALSE),
-          caption = "Table 3. Top 5 countries for Hindi film viewership share")
+# Show top Hindi films
+top_hindi_hits |>
+  datatable(
+    options = list(searching = FALSE, info = FALSE),
+    caption = "Top 10 Hindi films by weeks")
 ```
 
-The success across `r nrow(percentage_analysis)` countries demonstrates that compelling storytelling transcends geographical boundaries. Great stories find their audience, no passport required.
+In the earliest tracked year, Hindi films appeared `r earliest_year_count` times in India’s Top 10. By the most recent year, that number had grown to `r latest_year_count`, showing a clear `r hindi_popularity_trend` trend in audience demand. 
 
-The data shows that Hindi films carry borderless appeal, connecting audiences well beyond India. They act as cultural bridges across neighboring regions and demonstrate an unexpected reach, drawing viewership from markets far outside traditional expectations.
+The data makes one thing clear: Hindi cinema is no longer confined to its home market. With global audiences tuning in and Indian viewers returning week after week, Netflix has become a new stage where Bollywood blockbusters are building worldwide momentum.
 
-# From K-Pop to Can't-Stop: The Demon-Hunting Phenomenon That Refuses to Leave Netflix's Top 10
+## From K-Pop to Can't-Stop: The Show That Refuses to Leave Netflix's Top 10
 
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
@@ -580,19 +566,16 @@ kpop_countries <- COUNTRY_TOP_10 |>
   arrange(desc(weeks_in_country_top10))
 ```
 
-K-Pop Demon Hunters has achieved what most shows never manage—it remained in Netflix’s global top 10 for  `r kpop_stats$total_weeks` consecutive weeks. During this run, it reached a peak rank of #`r kpop_stats$best_rank` worldwide, 
-accumulated more than `r round(kpop_stats$total_hours / 1e6, 1)` million viewing hours, 
-and consistently attracted about `r round(kpop_stats$avg_weekly_hours / 1e6, 1)` million hours each week.
+*K-Pop Demon Hunters* has  maintained an impressive presence in Netflix's global top 10 ever since its release, remaining in the charts for `r kpop_stats$total_weeks` consecutive weeks. 
 
-Unlike the typical pattern of rapid premieres followed by sharp declines, this series demonstrated steady momentum. Its ability to sustain audience interest highlights both the strength of its storytelling and the global appeal of its themes. Viewers from a wide range of countries engaged with the show, confirming that its popularity extended well beyond its core markets.
+The series achieved a peak rank of `r kpop_stats$best_rank` worldwide while accumulating `r round(kpop_stats$total_hours / 1e6, 1)` million viewing hours—proving that innovative genre fusion can create its own category of hit content.
 
-In an era when streaming hits are often short-lived, K-Pop Demon Hunters stands out as an exception. Its `r kpop_stats$total_weeks` week presence in the charts offers an important example of how consistent quality and audience connection can translate into lasting success on a global scale.
+The series turned cultural specificity into a strategic advantage, blending K-pop's massive global appeal with supernatural storytelling to create must-watch television. Rather than limiting its reach, the show's unique identity became its superpower, building a dedicated international audience that returned week after week.
 
 # Conclusion 
 
-The results of this report show that Netflix hits succeed in different ways. Some titles, like Stranger Things, deliver sheer staying power, appearing in the Top 10 for `r stranger_weeks` weeks across `r total_countries` countries and earning `r top_3_count` Top-3 placements. Others, like K-Pop Demon Hunters, succeed through consistency, sustaining audience attention for `r kpop_stats$total_weeks` consecutive weeks and building a steady rhythm of millions of weekly viewing hours.
+The results of the analysis show that Netflix success take many forms.  While Stranger Things built lasting global momentum with `r stranger_weeks` weeks across `r total_countries` countries, K-Pop Demon Hunters sustained attention for `r kpop_stats$total_weeks` straight weeks, proving consistency can rival spectacle. 
 
-The story of Hindi films adds another dimension. Hindi films  account for `r round(india_market_share$hindi_market_share, 1)`% 
- of Film appearances in India while finding strong followings in Bangladesh, Pakistan, and the Middle East. This pattern suggests that regional storytelling not only resonates at home but also travels across borders, creating cultural bridges between audiences.
+On the contrary,  Hindi films, accounting for `r hindi_share_pct`% of India’s Top 10, showed how local cinema can grow into a global streaming force. 
 
-Taken together, these patterns suggest that success on Netflix is not only about big debuts or global marketing pushes. Longevity, regional strength, and cultural relevance all matter. A show can start small and grow into a worldwide hit, while local films can find surprisingly broad international audiences.
+Together, these cases illustrate that there is no single formula for streaming success. Longevity, cultural specificity, and regional strength each play a role in building hits that travel across borders and resonate with diverse audiences worldwide.

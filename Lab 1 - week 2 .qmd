@@ -1,0 +1,72 @@
+---
+title: "Week 2 In-Class Activity"
+author: "Shreya Karki"
+format: revealjs
+
+---
+
+# Annual Sales for Houston
+
+- Annual sales fluctuated. Highest sales recorded in 2014 
+- Sales declined in 2010, followed by recovery, strong *Dip in 2015* 
+
+```{r}
+#| fig-height: 70 
+if(!require("tidyverse")) install.packages("tidyverse")
+library(tidyverse)
+txhousing |> 
+  filter(city=="Houston") |> 
+  group_by(year) |> 
+  summarize(sales=sum(sales)) |> 
+  ggplot(aes(x=year, y=sales)) + 
+    geom_line() + 
+    ggtitle("Annual Houses Sold in Houston, TX")
+```
+
+# Average prices for Houses by Month
+
+- Strong seasonality in housing prices, prices peak in spring/summer (highest in June).
+
+```{r}
+if(!require("tidyverse")) install.packages("tidyverse")
+library(tidyverse)
+txhousing |> 
+   filter(city=="Houston") |> 
+    group_by(month) |> 
+    summarize(avg_price=sum(volume) / sum(sales)) |> 
+    mutate(month=factor(month.abb[month], 
+                 levels=month.abb, ordered=TRUE)) |>
+    ggplot(aes(x=month, y=avg_price)) + 
+    geom_bar(stat="identity") + 
+    ggtitle("Average Price of Houses Sold in Texas by Month") + 
+    xlab("Month") + 
+    ylab("Average Sale Price") + 
+    scale_y_continuous(labels = scales::dollar)
+```
+
+# Top Cities by Sales 
+
+- Austin and Collin County dominate sales volume.  
+
+```{r}
+if(!require("tidyverse")) install.packages("tidyverse")
+library(tidyverse)
+txhousing |> filter(year==2015) |> 
+    group_by(city) |> 
+    summarize(avg_price=sum(volume) / sum(sales),
+              num_sales=sum(sales)) |> 
+    slice_max(num_sales, n=10) |>
+    ggplot(aes(x=city, y=avg_price)) + 
+    geom_bar(stat="identity") + 
+    ggtitle("Average Price of Houses Sold in 2015 by City in Texas") + 
+    xlab("City") + 
+    ylab("Average Sale Price") + 
+    scale_y_continuous(labels = scales::dollar)
+```
+
+# Takeaway 
+
+- **Sales**: Strong recovery post-2008.  
+- **Prices**: Seasonal highs in summer, lows in winter.  
+
+    
