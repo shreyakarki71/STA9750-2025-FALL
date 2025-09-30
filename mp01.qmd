@@ -479,11 +479,6 @@ india_market_share <- COUNTRY_TOP_10 |>
 # Hindi Films market share % in India
 hindi_share_pct <- round(india_market_share$hindi_market_share, 1)
 
-# Show top Hindi films 
-top_hindi_hits <- hindi_films |>
-  head(10) |>
-  select(`Film` = show_title, `Weeks in Top 10` = weeks_in_india)
-
 # Top 3 Hindi films 
 top3_hindi <- hindi_films[1:3, ]
 
@@ -497,6 +492,7 @@ hindi_growth_trend <- COUNTRY_TOP_10 |>
 
 # Compare earliest and current years
 earliest_year_count <- hindi_growth_trend$total_appearances[1]
+
 latest_year_count <- hindi_growth_trend$total_appearances[length(hindi_growth_trend$total_appearances)]
 
 if (latest_year_count > earliest_year_count) {
@@ -506,6 +502,32 @@ if (latest_year_count > earliest_year_count) {
 } else {
   hindi_popularity_trend <- "stable"
 }
+
+# Countries where the Hindi film proxy (India hits not in US) is watched
+country_analysis_hindi_films <- COUNTRY_TOP_10 |>
+  filter(show_title %in% hindi_films$show_title) |>
+  group_by(country_name) |>
+  summarize(
+    hindi_films_watched = n_distinct(show_title),
+    total_appearances   = n()) |>
+  ungroup() |>
+  arrange(desc(total_appearances))
+
+# Denominators for percentage shares
+total_appearances_all <- sum(country_analysis_hindi_films$total_appearances)
+total_films_all       <- sum(country_analysis_hindi_films$hindi_films_watched)
+
+# Per-country percentage viewership/films 
+percentage_analysis <- country_analysis_hindi_films |>
+  mutate(
+    pct_viewership = round((total_appearances / total_appearances_all) * 100, 2),
+    pct_films      = round((hindi_films_watched / total_films_all) * 100, 2)
+  ) |>
+  select(country_name, pct_viewership, pct_films) |>
+  arrange(desc(pct_viewership))
+
+# Top markets
+top_markets <- head(percentage_analysis, 5)
 
 ```
 
@@ -519,16 +541,25 @@ Some titles became runaway sensations, spending weeks in the rankings.
 - **`r top3_hindi$show_title[2]`** stayed for `r top3_hindi$weeks_in_india[2]` weeks, and 
 - **`r top3_hindi$show_title[3]`** logged `r top3_hindi$weeks_in_india[3]` weeks. 
 
-**See the Top 10 ranking of top Hindi films below:**
+In the earliest tracked year, Hindi films appeared `r earliest_year_count` times in India’s Top 10. By the most recent year, that number had grown to `r latest_year_count`, showing a clear `r hindi_popularity_trend` trend in audience demand.
+
+Beyond India, Hindi films are making waves in places like Bangladesh, Pakistan, and Sri Lanka. The table below shows the top five international markets where Hindi films have built the strongest followings.
+
 ```{r}
-# Show top Hindi films
-top_hindi_hits |>
-  datatable(
-    options = list(searching = FALSE, info = FALSE),
-    caption = "Top 10 Hindi films by weeks")
+
+library(ggplot2)
+
+ggplot(top_markets, aes(x = reorder(country_name, -pct_viewership), y = pct_viewership)) +
+  geom_col(fill = 'wheat') +
+  labs(
+    title = "Top Markets for Hindi Films on Netflix",
+    x = "Country",
+    y = "Share of Appearances (%)"
+  ) +
+  theme_minimal()
 ```
 
-In the earliest tracked year, Hindi films appeared `r earliest_year_count` times in India’s Top 10. By the most recent year, that number had grown to `r latest_year_count`, showing a clear `r hindi_popularity_trend` trend in audience demand. 
+*Note: Percentage does not tell the whole story. With limited data, it would be misleading to think Hindi films make up only 5% of viewing, India’s true impact is much larger.*
 
 The data makes one thing clear: Hindi cinema is no longer confined to its home market. With global audiences tuning in and Indian viewers returning week after week, Netflix has become a new stage where Bollywood blockbusters are building worldwide momentum.
 
