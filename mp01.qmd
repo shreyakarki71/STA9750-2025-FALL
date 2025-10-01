@@ -217,12 +217,12 @@ global_nonenglish <- GLOBAL_TOP_10 |>
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 # Longest film among English/Non-English films
 longest_film <- GLOBAL_TOP_10 |> 
-  filter(category %in% c("Films (English)", "Films (Non-English)"))|>
+  filter(category %in% c("Films (English)", "Films (Non-English)")) |>
   mutate(runtime_in_minutes = runtime * 60) |>
   slice_max(runtime_in_minutes, n = 1)
 ```
 
-With a runtime of **`r round(longest_film$runtime_in_minutes[[1]])` minutes**, **`r longest_film$show_title[[1]]`** is the longest film Non-English film to have ever appeared in the Netflix global Top 10. 
+With a runtime of `r round(longest_film$runtime_in_minutes[[1]])` minutes, `r longest_film$show_title[[1]]` is the longest film of any language to have ever appeared in the Netflix global Top 10.
 
 ## Most-Watched Shows and Films in Each Category
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
@@ -255,7 +255,6 @@ longest_tv_run <- COUNTRY_TOP_10 |>
   ungroup() |>
   arrange(desc(longest_run)) |>
   slice_head(n = 1)
-
 ```
 
 In `r longest_tv_run$country_name`, the series `r longest_tv_run$show_title` held a Top 10 spot for `r longest_tv_run$longest_run` weeks, the longest continuous run recorded in a single country.
