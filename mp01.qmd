@@ -222,7 +222,7 @@ longest_film <- GLOBAL_TOP_10 |>
   slice_max(runtime_in_minutes, n = 1)
 ```
 
-With a runtime of `r round(longest_film$runtime_in_minutes[[1]])` minutes, `r longest_film$show_title[[1]]` is the longest film of any language to have ever appeared in the Netflix global Top 10.
+With a runtime of **`r round(longest_film$runtime_in_minutes[[1]])`** minutes, **`r longest_film$show_title[[1]]`** is the longest film of any language to have ever appeared in the Netflix global Top 10.
 
 ## Most-Watched Shows and Films in Each Category
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
@@ -237,7 +237,7 @@ most_watched_top <- most_watched |>
   group_by(category) |>
   slice_max(total_hours, n = 1)
 
-# Display
+# Display results in a table
 datatable(most_watched_top,
           options = list(searching = FALSE, info = FALSE),
           caption = "Table 1. Most-watched title by category (total hours viewed)")
@@ -255,22 +255,27 @@ longest_tv_run <- COUNTRY_TOP_10 |>
   ungroup() |>
   arrange(desc(longest_run)) |>
   slice_head(n = 1)
+
 ```
 
-In `r longest_tv_run$country_name`, the series `r longest_tv_run$show_title` held a Top 10 spot for `r longest_tv_run$longest_run` weeks, the longest continuous run recorded in a single country.
+In **`r longest_tv_run$country_name`**, the series **`r longest_tv_run$show_title`** held a Top 10 spot for **`r longest_tv_run$longest_run`** weeks, the longest continuous run recorded in a single country.
 
 ## Country with Limited Netflix Service History
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
 #Identify country with the fewest Netflix Top 10 weeks recorded
 
-fewest_weeks <- COUNTRY_TOP_10 |>
-  distinct(country_name, week) |>
-  count(country_name) |>
-  filter(n == min(n))
+country_weeks <- COUNTRY_TOP_10 |>
+  distinct(country_name, week) |> 
+  count(country_name, name = "total_weeks") |>  
+  arrange(total_weeks)  
+
+# Get the country with the minimum number of weeks
+limited_country <- country_weeks |>
+  slice_head(n = 1) 
 ```
 
-With just **`r unique(fewest_weeks$n)` weeks** of chart data, **`r paste(fewest_weeks$country_name, collapse = ", ")`** represents the smallest footprint in Netflix’s Top 10 records.
+Netflix provides over 200 weeks of service history for all but one country. **`r limited_country$country_name`** has only **`r limited_country$total_weeks`** weeks of Top 10 data.
 
 
 ## Squid Games Total Viewership Across All Seasons
@@ -281,7 +286,7 @@ squid_games <-GLOBAL_TOP_10 |>
   summarize(total_hours = sum(weekly_hours_viewed))
 ```
 
-Across all seasons, *Squid Game* has generated `r format(round(squid_games$total_hours, 0), big.mark = ",", scientific = FALSE)`
+Across all seasons, *Squid Game* has generated **`r format(round(squid_games$total_hours, 0), big.mark = ",", scientific = FALSE)`**
 hours of viewing, confirming its place as one of Netflix’s most impactful franchises worldwide.
 
 ## Red Notice's Debut Year View Count
@@ -296,7 +301,7 @@ red_notice <- GLOBAL_TOP_10 |>
 ```
 
 Released in 2021, *Red Notice* reached approximately 
-`r format(round(red_notice$approx_views, 0), big.mark = ",")` views, illustrating the blockbuster potential of Netflix original films.
+**`r format(round(red_notice$approx_views, 0), big.mark = ",")`** views, illustrating the blockbuster potential of Netflix original films.
 
 ## Slow Climb to the Top: Films That Grew Into #1 Hits
 ```{r,eval=TRUE, echo=TRUE, include=TRUE}
@@ -338,18 +343,16 @@ datatable(head(us_climbers, 10),
           options = list(searching = FALSE, info = FALSE),
           caption = "Table 2. US films that debuted below #1 but later climbed to #1")
 
-
 ```
 
-In the United States, `r us_film_climbers_total` films debuted below #1 and later climbed to the top spot.  
+In the United States, **`r us_film_climbers_total`** films debuted below #1 and later climbed to the top spot.  
 
-The most recent was **`r us_film_climber_latest$show_title`**, which first appeared at No. `r us_film_climber_latest$debut_rank` on `r us_film_climber_latest$debut_week`.
+The most recent was **`r us_film_climber_latest$show_title`**, which first appeared at No. `r us_film_climber_latest$debut_rank`. 
 
 ## Record-Breaking Global TV Debut
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
-# Build a table of each show's first appearance per country.
-
+# Find each show's first appearance per country
 country_show_debuts <- COUNTRY_TOP_10 |> 
   filter(category == "TV") |>
   group_by(show_title, season_title, country_name) |> 
@@ -370,7 +373,7 @@ debut_counts <- country_show_debuts |>
 most_popular_show <- debut_counts |> slice_head(n = 1)
 ```
 
-The strongest debut came from **`r paste(unique(most_popular_show$show_title), collapse = ", ")`** (**`r paste(unique(most_popular_show$season_title), collapse = ", ")`**), premiering in **`r max(most_popular_show$num_countries)` countries** during its first week (`r most_popular_show$debut_week[1]`).
+**`r most_popular_show$show_title`** had the strongest global debut, entering the Top 10 in `r most_popular_show$num_countries` countries during its debut period.
 
 # Press Release
 
@@ -427,7 +430,7 @@ Stranger Things has become one of Netflix’s most enduring global hits, appeari
 
 While the show’s roots are firmly set in Hawkins, Indiana, its reach has extended far beyond the U.S, with Serbia emerging as an unexpected standout. Audiences there kept the series in their top 10 for `r country_counts$appearances[1]` weeks, reflecting the show’s unusual ability to resonate across cultures.
 
-Each season didn't just maintain interest, it grew it. The series grew each season in charts, showing how strong storytelling and evolving narratives can keep audiences invested.
+The series maintained strong audience interest across all seasons, with particularly notable performance for the first and most recent seasons. 
 
 **Season-by-Season Growth**
 
