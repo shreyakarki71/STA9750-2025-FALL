@@ -5,13 +5,13 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 format: 
   html:
     code-fold: true
-    code-tools: true
     toc: true
     toc-depth: 3
+    number-sections: true
     self-contained: true
     smooth-scroll: true
 execute:
-  echo: false
+  echo: true
   warning: false
   message: false
 editor: visual
@@ -276,10 +276,11 @@ head(WAGES[, c("YEAR", "FIPS", "INDUSTRY", "EMPLOYMENT", "AVG_WAGE")])
 head(INDUSTRY_CODES[, c("level1_code", "level2_code", "level3_code", "level4_code")])
 ```
 
-## Introduction
+# Introduction
 
-Housing affordability represents one of America's most pressing urban challenges. This analysis identifies the nation's most pro-housing metropolitan areas by examining construction patterns, economic opportunities, and housing costs across Core-Based Statistical Areas. Following the YIMBY principle that permissive zoning and increased housing supply can reduce costs and create more dynamic, inclusive communities, we analyze which regions are actually building enough homes to meet demand and which are falling behind.
+Housing affordability is one of America’s most pressing urban challenges. This analysis identifies the nation’s most pro-housing metropolitan areas by examining construction patterns, economic opportunity, and housing costs across Core-Based Statistical Areas.
 
+Following the YIMBY idea that permissive zoning and increased housing supply can reduce costs and support more dynamic, inclusive communities, we assess which regions are building enough homes to meet demand and which are falling behind.
 
 # Data Relationship Diagram
 
@@ -288,9 +289,9 @@ Housing affordability represents one of America's most pressing urban challenges
 ::: {.callout-tip}
 ## Key Data Relationships
 
-- All ACS tables (`INCOME`, `RENT`, `POPULATION`, `HOUSEHOLDS`) share the composite key **`GEOID` + `year`** and join **1:1**.
-- `PERMITS` uses **`CBSA`**, which corresponds to ACS **`GEOID`**, hence it joins on **geography + year**.
-- `WAGES` uses BLS **industry codes** (e.g., 101, 1011) that do not exactly match **NAICS** codes in `INDUSTRY_CODES`; this link is **conceptual**.
+- All ACS tables (`INCOME`, `RENT`, `POPULATION`, `HOUSEHOLDS`) share the composite key **`GEOID` + `year`**.
+- `PERMITS` uses **`CBSA`**, which corresponds to ACS **`GEOID`**,  joins on **geography + year**.
+- `WAGES` uses BLS **industry codes** (e.g., 101, 1011) that approximate but do not exactly match **NAICS** in `INDUSTRY_CODES`; this link is **conceptual**.
 - `WAGES` connects to ACS and `PERMITS` after transforming **CBSA → "C" + first 4 digits** (e.g., `10180 → C1018`).
 - For clarity, not every possible line is drawn — the diagram shows only the **primary joins** used in analysis.
 
@@ -313,7 +314,7 @@ top_housing_metros <- inner_join(PERMITS, INCOME, join_by(CBSA == GEOID),
   ungroup()
 ```
 
-The **`r top_housing_metros$NAME`** metropolitan area permitted **`r scales::comma(top_housing_metros$total_units)`** new housing units from 2010-2019, demonstrating the scale of construction achievable with pro-housing policies. This level of production represents a benchmark for regional housing growth targets.
+The **`r top_housing_metros$NAME`** metropolitan area permitted **`r scales::comma(top_housing_metros$total_units)`** new housing units from 2010-2019, demonstrating the scale achievable under pro-housing policies. This level of production represents a benchmark for regional housing growth targets.
 
 ## Market Volatility Analysis: Albuquerque Case Study
 
@@ -601,7 +602,7 @@ rent_burden_data <- rent_burden_data |>
 
 ```
 
-### New York Metropolitan Area: Affordability Trends
+## New York Metropolitan Area: Affordability Trends
 
 <details>
 <summary><strong>Table: NYC Rent Burden Over Time (2009–2023)</strong></summary>
@@ -797,13 +798,11 @@ datatable(
   options = list(searching = FALSE)
 )
 
-```
-</details>
-
-```{r}
 top_production <- instant_leaders$`Metro Area`[1]
 top_production_score <- instant_leaders$`Production Score`[1]
 ```
+</details>
+
 **Interpretation:**  `r top_production` is currently the nation’s most active housing market, with a production score of `r top_production_score`.  
 
 This reflects **strong near-term construction activity**, signaling local policies that allow quick permitting and responsive homebuilding.
@@ -828,9 +827,7 @@ rate_leaders <- housing_growth_data |>
   ) |>
   arrange(desc(`Growth Score`)) |>
   head(5)
-```
 
-```{r}
 top_growth <- rate_leaders$`Metro Area`[1] 
 top_growth_score <- rate_leaders$`Growth Score`[1]
 ```
@@ -859,9 +856,7 @@ composite_leaders <- housing_growth_data |>
   ) |>
   arrange(desc(`Overall Score`)) |>
   head(5)
-```
 
-```{r}
 top_overall <- composite_leaders$`Metro Area`[1]
 top_overall_score <- composite_leaders$`Overall Score`[1]
 ```
@@ -870,6 +865,14 @@ top_overall_score <- composite_leaders$`Overall Score`[1]
 This composite result highlights how **consistent permitting pipelines** and **pro-housing zoning frameworks** can deliver stability across economic cycles.  
 
 Such metros illustrate the potential impact of **federal-state collaboration** on long-term housing affordability.
+
+### Policy Takeaway
+
+Regions like `r top_overall` and `r top_growth` show that **consistent, multi-year housing production, most effectively keeps rent burdens stable**. 
+
+Federal programs that **reward steady permitting and year-over-year delivery** can replicate this success across other metros.
+
+# Visualization
 
 ```{r task5_yimby_scoring_panel}
 # Join rent burden and housing growth datasets
@@ -930,13 +933,6 @@ yimby_success_n <- length(yimby_success_names)
 yimby_success_preview <- paste(head(yimby_success_names, 5), collapse = ", ")
 
 ```
-### Policy Takeaway
-
-Regions like `r top_overall` and `r top_growth` show that **consistent, multi-year housing production, most effectively keeps rent burdens stable**. 
-
-Federal programs that **reward steady permitting and year-over-year delivery** can replicate this success across other metros.
-
-# Visualization
 
 ## Rent Burden vs Housing Growth
 ```{r task6}
@@ -1079,36 +1075,6 @@ The table highlights two contrasting metros that capture both **success and need
 
 Together, these cities make a compelling case for **federal incentives that expand local housing capacity** while maintaining affordability.
 
-```{r echo=TRUE, results='hide'}
-# Map WAGES CBSA to names using POPULATION 
-cbsa_map <- POPULATION %>%
-  distinct(GEOID, NAME) %>%
-  mutate(std_cbsa = paste0("C", GEOID)) %>%
-  select(std_cbsa, NAME)
-
-wages_named <- WAGES %>%
-  mutate(std_cbsa = paste0(FIPS, "0")) %>%
-  inner_join(cbsa_map, by = "std_cbsa")
-
-two_metros <- wages_named %>%
-  filter(NAME %in% c(primary_name, cosponsor_name),
-         INDUSTRY %in% c(23, 62)) %>%
-  group_by(NAME, INDUSTRY) %>%
-  summarise(
-    Employment = sum(EMPLOYMENT, na.rm = TRUE),
-    `Avg Annual Wage (USD)` = round(weighted.mean(AVG_WAGE, w = EMPLOYMENT, na.rm = TRUE), 0),
-    .groups = "drop"
-  ) %>%
-  mutate(Industry = dplyr::case_when(
-    INDUSTRY == 23 ~ "Construction (NAICS 23)",
-    INDUSTRY == 62 ~ "Health Care & Social Assistance (NAICS 62)",
-    TRUE ~ paste0("NAICS ", INDUSTRY)
-  )) %>%
-  select(Industry, Metro = NAME, Employment, `Avg Annual Wage (USD)`)
-
-two_metros
-```
-
 # Policy Brief
 
 ## Why this bill is needed
@@ -1157,6 +1123,32 @@ Broad-based support for this bill can come from key industries that directly gai
 <summary><strong>Table: Key Industries in Proposed Sponsor Metros</strong></summary>
 
 ```{r, echo=FALSE}
+# Map WAGES CBSA to names using POPULATION 
+cbsa_map <- POPULATION %>%
+  distinct(GEOID, NAME) %>%
+  mutate(std_cbsa = paste0("C", GEOID)) %>%
+  select(std_cbsa, NAME)
+
+wages_named <- WAGES %>%
+  mutate(std_cbsa = paste0(FIPS, "0")) %>%
+  inner_join(cbsa_map, by = "std_cbsa")
+
+two_metros <- wages_named %>%
+  filter(NAME %in% c(primary_name, cosponsor_name),
+         INDUSTRY %in% c(23, 62)) %>%
+  group_by(NAME, INDUSTRY) %>%
+  summarise(
+    Employment = sum(EMPLOYMENT, na.rm = TRUE),
+    `Avg Annual Wage (USD)` = round(weighted.mean(AVG_WAGE, w = EMPLOYMENT, na.rm = TRUE), 0),
+    .groups = "drop"
+  ) %>%
+  mutate(Industry = dplyr::case_when(
+    INDUSTRY == 23 ~ "Construction (NAICS 23)",
+    INDUSTRY == 62 ~ "Health Care & Social Assistance (NAICS 62)",
+    TRUE ~ paste0("NAICS ", INDUSTRY)
+  )) %>%
+  select(Industry, Metro = NAME, Employment, `Avg Annual Wage (USD)`)
+
 DT::datatable(
   two_metros,
   caption = "Key Industries in the Two Proposed Sponsor Metros",
