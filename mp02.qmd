@@ -15,8 +15,8 @@ execute:
   warning: false
   message: false
 editor: visual
-
 ---
+
 ```{r data_import,include=FALSE}
 
 if(!dir.exists(file.path("data", "mp02"))){
@@ -286,16 +286,16 @@ Following the YIMBY idea that permissive zoning and increased housing supply can
 
 ![](docs/MP02.svg){fig-align="center" width="100%"}
 
-::: {.callout-tip}
+::: callout-tip
 ## Key Data Relationships
 
-- All ACS tables (`INCOME`, `RENT`, `POPULATION`, `HOUSEHOLDS`) share the composite key **`GEOID` + `year`**.
-- `PERMITS` uses **`CBSA`**, which corresponds to ACS **`GEOID`**,  joins on **geography + year**.
-- `WAGES` uses BLS **industry codes** (e.g., 101, 1011) that approximate but do not exactly match **NAICS** in `INDUSTRY_CODES`; this link is **conceptual**.
-- `WAGES` connects to ACS and `PERMITS` after transforming **CBSA → "C" + first 4 digits** (e.g., `10180 → C1018`).
-- For clarity, not every possible line is drawn — the diagram shows only the **primary joins** used in analysis.
+-   All ACS tables (`INCOME`, `RENT`, `POPULATION`, `HOUSEHOLDS`) share the composite key **`GEOID` + `year`**.
+-   `PERMITS` uses **`CBSA`**, which corresponds to ACS **`GEOID`**, joins on **geography + year**.
+-   `WAGES` uses BLS **industry codes** (e.g., 101, 1011) that approximate but do not exactly match **NAICS** in `INDUSTRY_CODES`; this link is **conceptual**.
+-   `WAGES` connects to ACS and `PERMITS` after transforming **CBSA → "C" + first 4 digits** (e.g., `10180 → C1018`).
+-   For clarity, not every possible line is drawn — the diagram shows only the **primary joins** used in analysis.
 
-_This ERD was created in [dbdiagram.io](https://dbdiagram.io/d/MP02-68eaa36dd2b621e422618c1a) and embedded as an SVG for best visual clarity._
+*This ERD was created in [dbdiagram.io](https://dbdiagram.io/d/MP02-68eaa36dd2b621e422618c1a) and embedded as an SVG for best visual clarity.*
 :::
 
 # Construction Leadership & Housing Supply Analysis (Data Exploration)
@@ -319,7 +319,9 @@ The **`r top_housing_metros$NAME`** metropolitan area permitted **`r scales::com
 ## Market Volatility Analysis: Albuquerque Case Study
 
 <details>
+
 <summary><strong>Table: Annual Housing Production — Albuquerque Metro Area</strong></summary>
+
 ```{r task2_q2}
 library(DT)
 
@@ -336,13 +338,15 @@ datatable(
   options = list(pageLength = 10, searching = FALSE)
 )
 ```
+
 </details>
 
-Albuquerque’s housing permits peaked in `r albuquerque_construction$year[albuquerque_construction$"Housing Units Permitted" == max(albuquerque_construction$"Housing Units Permitted")]`, with the highest pre-pandemic level recorded in `r albuquerque_construction$year[albuquerque_construction$year < 2020 & albuquerque_construction$"Housing Units Permitted" == max(albuquerque_construction$"Housing Units Permitted"[albuquerque_construction$year < 2020])]`.  
+Albuquerque’s housing permits peaked in `r albuquerque_construction$year[albuquerque_construction$"Housing Units Permitted" == max(albuquerque_construction$"Housing Units Permitted")]`, with the highest pre-pandemic level recorded in `r albuquerque_construction$year[albuquerque_construction$year < 2020 & albuquerque_construction$"Housing Units Permitted" == max(albuquerque_construction$"Housing Units Permitted"[albuquerque_construction$year < 2020])]`.
 
 **Interpretation:** This pattern shows a brief spike rather than a steady climb. To judge local homebuilding capacity, it is better to look at **multi-year trajectories** than any single high point.
 
 ## Regional Income Distribution Patterns
+
 ```{r, task2_q3}
 
 # filter year 
@@ -370,7 +374,7 @@ top_state_income <- income_2015 |>
 
 In `r top_state_income$state`, the average individual income was the highest in 2015 at approximately `r scales::dollar(round(top_state_income$avg_individual_income,0))` per person.
 
-**Interpretation:** High income alone does not ensure affordability.  Without enough housing, rents rise faster than wages.
+**Interpretation:** High income alone does not ensure affordability. Without enough housing, rents rise faster than wages.
 
 ## High-Skill Employment Distribution
 
@@ -394,12 +398,13 @@ ds_named <- Data_scientist |>
   slice_max(EMPLOYMENT, n = 1) |>
   arrange(YEAR)
 ```
+
 In the latest year (`r max(ds_named$YEAR)`), `r ds_named$NAME[ds_named$YEAR == max(ds_named$YEAR)]` has the most data scientists. New York–Newark–Jersey City last held the top spot in `r max(ds_named$YEAR[ds_named$NAME == "New York-Newark-Jersey City, NY-NJ-PA Metro Area"])`.
 
 **Interpretation:** Fast growth in high-paying tech jobs raises housing demand. Cities that **permit new homes steadily** can prevent rent spikes as their job markets expand.
 
-
 ## Financial Sector Concentration: NYC Case Study
+
 ```{r, task2_q5, eval=TRUE, echo=FALSE, include=TRUE, results='hide'}
 
 # Filter NYC CBSA (find name containing "New York")
@@ -441,7 +446,6 @@ This share peaked in **`r nyc_share_peak$YEAR`**, showing how important finance 
 
 **Interpretation:** Finance jobs bring high wages, but without new housing construction, those wage gains mostly raise rents instead of improving overall affordability.
 
-
 # Housing Market Relationships & Trends (Initial Visualization)
 
 ## Income-Rent Correlation Analysis
@@ -476,6 +480,7 @@ ggplot(metro_affordability_2009,
   )
 
 ```
+
 Rents generally increase as household income rises, but the steepness of the line shows how strongly income growth affects housing costs.
 
 Metro areas that allow more construction (YIMBY-friendly) often fall **below the trend line**, meaning residents there get **more housing for the same income level**. This suggests that expanding housing supply can make cities more affordable even as incomes rise.
@@ -524,8 +529,7 @@ panel.grid.minor = element_blank()
 )
 ```
 
-As total employment grows, healthcare jobs rise almost proportionally.
-Cities with rapid job growth must ensure sufficient housing so nurses and care workers can live where they work.
+As total employment grows, healthcare jobs rise almost proportionally. Cities with rapid job growth must ensure sufficient housing so nurses and care workers can live where they work.
 
 ## Demographic Shifts & Housing Demand
 
@@ -572,7 +576,7 @@ As average household size slowly declines, the same number of people need more h
 
 ### Defining the Metric
 
-Rent burden measures the share of household income spent on rent — a direct indicator of housing affordability.  
+Rent burden measures the share of household income spent on rent — a direct indicator of housing affordability.\
 The **INCOME** and **RENT** tables are joined by geography and year to compute:
 
 > **Rent Burden % = (Monthly Rent × 12) / Household Income × 100**
@@ -605,8 +609,8 @@ rent_burden_data <- rent_burden_data |>
 ## New York Metropolitan Area: Affordability Trends
 
 <details>
-<summary><strong>Table: NYC Rent Burden Over Time (2009–2023)</strong></summary>
 
+<summary><strong>Table: NYC Rent Burden Over Time (2009–2023)</strong></summary>
 
 ```{r, task4_nyc_burden }
 nyc_rent_burden <- rent_burden_data |>
@@ -637,15 +641,17 @@ nyc_first_income <- nyc_rent_burden$`Household Income`[1]
 nyc_last_income <- nyc_rent_burden$`Household Income`[nrow(nyc_rent_burden)]
 nyc_avg_burden <- round(mean(nyc_rent_burden$`Rent Burden %`), 1)
 ```
+
 </details>
 
-**Interpretation:**  NYC’s rent burden stayed within a narrow range (`r round(min(nyc_rent_burden[['Rent Burden %']]),1)`–`r round(max(nyc_rent_burden[['Rent Burden %']]),1)`%) even as median household income rose from `r scales::dollar(nyc_first_income)` to `r scales::dollar(nyc_last_income)`. 
+**Interpretation:** NYC’s rent burden stayed within a narrow range (`r round(min(nyc_rent_burden[['Rent Burden %']]),1)`–`r round(max(nyc_rent_burden[['Rent Burden %']]),1)`%) even as median household income rose from `r scales::dollar(nyc_first_income)` to `r scales::dollar(nyc_last_income)`.
 
 This shows that **housing costs rose in step with earnings**, leaving affordability largely unchanged. The most likely reason is a **supply constraint**, when demand expands but new housing does not keep pace, rent burden tends to stay flat or even rise.
 
 ## Priority Intervention Regions
 
 <details>
+
 <summary><strong>Table: Highest Rent Burden</strong></summary>
 
 ```{r task4_burdentable}
@@ -681,15 +687,17 @@ top_city <- most_burdened$City[1]
 top_burden <- most_burdened$`Rent Burden %`[1]
 top_score <- most_burdened$`Burden Score`[1]
 ```
+
 </details>
 
-**Interpretation:**  `r top_city` faces the **highest rent burden** in the latest year, with residents spending about `r round(top_burden, 1)`% of income on rent (standardized score `r round(top_score, 1)`).  
+**Interpretation:** `r top_city` faces the **highest rent burden** in the latest year, with residents spending about `r round(top_burden, 1)`% of income on rent (standardized score `r round(top_score, 1)`).
 
 This indicates **acute affordability pressure**, consistent with demand outpacing new supply. These metros are strong candidates for **targeted permitting reforms and federal YIMBY incentives** to expand rental stock quickly.
 
 ## Affordable Housing Models
 
 <details>
+
 <summary><strong>Table: Lowest Rent Burden</strong></summary>
 
 ```{r task4_extremes_latest}
@@ -722,18 +730,20 @@ bottom_city <- least_burdened$City[1]
 bottom_burden <- least_burdened$`Rent Burden %`[1]
 bottom_score <- least_burdened$`Burden Score`[1]
 ```
+
 </details>
-**Interpretation:**  `r bottom_city` indicates the **lowest rent burden** in the latest year, with residents spending about `r round(bottom_burden, 1)`% of income on rent and a standardized score of `r round(bottom_score, 1)`.  
+
+**Interpretation:** `r bottom_city` indicates the **lowest rent burden** in the latest year, with residents spending about `r round(bottom_burden, 1)`% of income on rent and a standardized score of `r round(bottom_score, 1)`.
 
 This outcome is consistent with **ample new supply and/or strong income growth**, suggesting that steady permitting and streamlined approvals can keep housing costs in check.
 
-# Housing Growth: Measuring Supply Responsiveness  
+# Housing Growth: Measuring Supply Responsiveness
 
-Housing growth captures how effectively cities add homes to match demand.  
+Housing growth captures how effectively cities add homes to match demand.
 
-Using permit and population data, two complementary indicators were developed:  
--  an **instantaneous production metric**, measuring new housing relative to population size; and  
--  a **rate-based growth metric**, comparing permitting to five-year population change.  
+Using permit and population data, two complementary indicators were developed:\
+- an **instantaneous production metric**, measuring new housing relative to population size; and\
+- a **rate-based growth metric**, comparing permitting to five-year population change.
 
 Combining these yields a **composite housing growth score**, which highlights metros that are both building actively and scaling with demographic trends.
 
@@ -766,10 +776,10 @@ housing_growth_data <- housing_growth_data |>
   )
 ```
 
-
 ## Construction Hotspots: Where Building is Happening Now
 
 <details>
+
 <summary><strong>Table: Construction Hotspots — Highest Current Production </strong></summary>
 
 ```{r task5_production_leaders}
@@ -801,9 +811,10 @@ datatable(
 top_production <- instant_leaders$`Metro Area`[1]
 top_production_score <- instant_leaders$`Production Score`[1]
 ```
+
 </details>
 
-**Interpretation:**  `r top_production` is currently the nation’s most active housing market, with a production score of `r top_production_score`.  
+**Interpretation:** `r top_production` is currently the nation’s most active housing market, with a production score of `r top_production_score`.
 
 This reflects **strong near-term construction activity**, signaling local policies that allow quick permitting and responsive homebuilding.
 
@@ -831,14 +842,15 @@ rate_leaders <- housing_growth_data |>
 top_growth <- rate_leaders$`Metro Area`[1] 
 top_growth_score <- rate_leaders$`Growth Score`[1]
 ```
-**Interpretation:**  `r top_growth` demonstrates the **most balanced housing response to population expansion**, with a five-year growth-adjusted score of `r top_growth_score`. 
 
-This means that new housing supply has kept pace with rapid population increases—an indicator of **adaptive land-use policy** and **capacity planning** that maintains affordability while accommodating in-migration.  
+**Interpretation:** `r top_growth` demonstrates the **most balanced housing response to population expansion**, with a five-year growth-adjusted score of `r top_growth_score`.
+
+This means that new housing supply has kept pace with rapid population increases—an indicator of **adaptive land-use policy** and **capacity planning** that maintains affordability while accommodating in-migration.
 
 Metros with low growth scores, by contrast, risk rising rent burdens as population outstrips new construction.
 
-
 ## Overall Housing Growth
+
 ```{r task5_composite_leaders}
 composite_leaders <- housing_growth_data |>
   filter(year == latest_year) |>
@@ -860,15 +872,16 @@ composite_leaders <- housing_growth_data |>
 top_overall <- composite_leaders$`Metro Area`[1]
 top_overall_score <- composite_leaders$`Overall Score`[1]
 ```
-**Interpretation:**  `r top_overall` leads the nation with an overall housing growth score of `r top_overall_score`, balancing both strong construction volume and responsiveness to local population changes. 
 
-This composite result highlights how **consistent permitting pipelines** and **pro-housing zoning frameworks** can deliver stability across economic cycles.  
+**Interpretation:** `r top_overall` leads the nation with an overall housing growth score of `r top_overall_score`, balancing both strong construction volume and responsiveness to local population changes.
+
+This composite result highlights how **consistent permitting pipelines** and **pro-housing zoning frameworks** can deliver stability across economic cycles.
 
 Such metros illustrate the potential impact of **federal-state collaboration** on long-term housing affordability.
 
 ### Policy Takeaway
 
-Regions like `r top_overall` and `r top_growth` show that **consistent, multi-year housing production, most effectively keeps rent burdens stable**. 
+Regions like `r top_overall` and `r top_growth` show that **consistent, multi-year housing production, most effectively keeps rent burdens stable**.
 
 Federal programs that **reward steady permitting and year-over-year delivery** can replicate this success across other metros.
 
@@ -935,6 +948,7 @@ yimby_success_preview <- paste(head(yimby_success_names, 5), collapse = ", ")
 ```
 
 ## Rent Burden vs Housing Growth
+
 ```{r task6}
 library(ggplot2)
 
@@ -958,11 +972,13 @@ panel.grid.minor = element_blank()
 )
 
 ```
+
 Cities shown in green (“YIMBY Success”) built more housing and saw rent burdens stabilize or decline over time.
 
 This pattern supports the idea that steady housing production helps prevent rent spikes, even in growing metros.
 
 ## Population Growth vs Housing Affordability
+
 ```{r task6b}
 ggplot(yimby_summary,
 aes(x = pop_growth, y = -burden_change, color = yimby_score)) +
@@ -984,14 +1000,15 @@ panel.grid.minor = element_blank()
 )
 
 ```
+
 Many metros with strong population growth also achieved better affordability when new housing kept pace.
 
 In contrast, regions with low construction saw rent burdens worsen — highlighting how growth without supply drives up costs.
 
-
 ## Metros Achieving Affordability Through Construction
 
 <details>
+
 <summary><strong>Table: Metropolitan Areas Improving Affordability Through Housing Supply (Top 10)</strong></summary>
 
 ```{r}
@@ -1020,15 +1037,17 @@ DT::datatable(
   rownames = FALSE
 )
 ```
+
 </details>
 
-These metros represent the **top 10 “YIMBY success stories”** cities that started with relatively high rent burdens but achieved improvements over time while maintaining strong housing growth.  
+These metros represent the **top 10 “YIMBY success stories”** cities that started with relatively high rent burdens but achieved improvements over time while maintaining strong housing growth.
 
-The leading metro, `r yimby_success$"Metro Area"[1]`, saw a rent burden drop of `r abs(round(yimby_success$"Rent Burden Change"[1], 1))` percentage points while maintaining a housing growth score of `r round(yimby_success$"Housing Growth Score"[1], 1)`.  
+The leading metro, `r yimby_success$"Metro Area"[1]`, saw a rent burden drop of `r abs(round(yimby_success$"Rent Burden Change"[1], 1))` percentage points while maintaining a housing growth score of `r round(yimby_success$"Housing Growth Score"[1], 1)`.
 
 This demonstrates how **steady new construction** helps stabilize affordability even as populations rise.
 
 <details>
+
 <summary><strong>Table: Recommended Congressional Sponsors</strong></summary>
 
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
@@ -1066,49 +1085,53 @@ DT::datatable(
 )
 
 ```
+
 </details>
 
-The table highlights two contrasting metros that capture both **success and need** in housing reform.  
+The table highlights two contrasting metros that capture both **success and need** in housing reform.
 
-- The **primary sponsor city**, `r primary_name`, achieved a rent burden decline of `r abs(round(primary$burden_change, 1))` percentage points and strong housing growth (`r round(primary$avg_housing_growth, 1)` score), proving that **steady permitting can reduce affordability pressures**.  
-- The **co-sponsor city**, `r cosponsor_name`, saw rent burden rise to `r round(cosponsor$recent_burden, 1)`% with limited housing growth (`r round(cosponsor$avg_housing_growth, 1)` score), showing **the cost of underbuilding**.  
+-   The **primary sponsor city**, `r primary_name`, achieved a rent burden decline of `r abs(round(primary$burden_change, 1))` percentage points and strong housing growth (`r round(primary$avg_housing_growth, 1)` score), proving that **steady permitting can reduce affordability pressures**.\
+-   The **co-sponsor city**, `r cosponsor_name`, saw rent burden rise to `r round(cosponsor$recent_burden, 1)`% with limited housing growth (`r round(cosponsor$avg_housing_growth, 1)` score), showing **the cost of underbuilding**.
 
 Together, these cities make a compelling case for **federal incentives that expand local housing capacity** while maintaining affordability.
 
 # Policy Brief
 
 ## Why this bill is needed
-Across U.S. metropolitan areas, **rent burdens remain high even as incomes rise**.  
 
-Our analysis shows that metros which **consistently permit new housing** experience **lower rent burdens** without slowing job or population growth.  
+Across U.S. metropolitan areas, **rent burdens remain high even as incomes rise**.
+
+Our analysis shows that metros which **consistently permit new housing** experience **lower rent burdens** without slowing job or population growth.
 
 Federal incentives can help local governments sustain this success by encouraging **steady, multi-year housing pipelines** rather than short-term construction spikes.
 
 ## Understanding the metrics
+
 Two indicators guide where policy can have the greatest impact:
 
-- **Rent Burden (%):** Share of a typical household’s income spent on rent  
-  *(Monthly Rent × 12 ÷ Household Income × 100)*.  
-  Standardized into a **Burden Score (0–100)**, where higher values signal greater affordability pressure.  
+-   **Rent Burden (%):** Share of a typical household’s income spent on rent\
+    *(Monthly Rent × 12 ÷ Household Income × 100)*.\
+    Standardized into a **Burden Score (0–100)**, where higher values signal greater affordability pressure.
 
-- **Housing Growth (Composite Score):** Combines two complementary measures:  
-  1. **Production (instantaneous)** — housing permits per 1,000 residents, reflecting current construction activity.  
-  2. **Rate-based (5-year responsive)** — housing permits relative to population growth, showing whether new supply keeps pace with demand.  
+-   **Housing Growth (Composite Score):** Combines two complementary measures:
+
+    1.  **Production (instantaneous)** — housing permits per 1,000 residents, reflecting current construction activity.\
+    2.  **Rate-based (5-year responsive)** — housing permits relative to population growth, showing whether new supply keeps pace with demand.
 
 Higher scores indicate regions successfully matching construction to population needs.
 
 ## Recommended congressional sponsors
+
 Two metro areas best illustrate the **case for balanced housing reform** — one showing how well pro-housing policies can work, and another showing why federal support is needed.
 
-- **Primary Sponsor (YIMBY Success):** `r primary_name` 
-Here, rent burden **fell from `r round(primary$early_burden,1)`% to `r round(primary$recent_burden,1)`%**, while the population grew **`r round(primary$pop_growth,1)`%**  and the **housing growth score** reached **`r round(primary$avg_housing_growth,1)`**.  
+-   **Primary Sponsor (YIMBY Success):** `r primary_name` Here, rent burden **fell from `r round(primary$early_burden,1)`% to `r round(primary$recent_burden,1)`%**, while the population grew **`r round(primary$pop_growth,1)`%** and the **housing growth score** reached **`r round(primary$avg_housing_growth,1)`**.
 
 This metro shows that when cities keep permitting consistent, **affordability improves even as demand grows**.
 
-- **Co-Sponsor (High Burden, Low Growth):** `r cosponsor_name`  
-  In contrast, rent burden **rose from `r round(cosponsor$early_burden,1)`% to `r round(cosponsor$recent_burden,1)`%**, with limited population growth (**`r round(cosponsor$pop_growth,1)`%**) and a **low housing growth score (`r round(cosponsor$avg_housing_growth,1)`)**.  
+-   **Co-Sponsor (High Burden, Low Growth):** `r cosponsor_name`\
+    In contrast, rent burden **rose from `r round(cosponsor$early_burden,1)`% to `r round(cosponsor$recent_burden,1)`%**, with limited population growth (**`r round(cosponsor$pop_growth,1)`%**) and a **low housing growth score (`r round(cosponsor$avg_housing_growth,1)`)**.
 
-This city reflects the challenges faced by regions where **housing supply lags behind demand**,  the very places this bill aims to help.
+This city reflects the challenges faced by regions where **housing supply lags behind demand**, the very places this bill aims to help.
 
 Together, these two regions make a strong case for a **national framework that rewards steady homebuilding**, prevents rent spikes, and supports inclusive urban growth.
 
@@ -1116,10 +1139,11 @@ Together, these two regions make a strong case for a **national framework that r
 
 Broad-based support for this bill can come from key industries that directly gain from more stable housing markets:
 
-- **Construction (NAICS 23):** Predictable permitting creates steady, skilled jobs and stronger wage security for workers.  
-- **Health Care & Social Assistance (NAICS 62):** Affordable housing allows hospitals and clinics to **retain nurses, aides, and frontline staff**, strengthening essential community services.
+-   **Construction (NAICS 23):** Predictable permitting creates steady, skilled jobs and stronger wage security for workers.\
+-   **Health Care & Social Assistance (NAICS 62):** Affordable housing allows hospitals and clinics to **retain nurses, aides, and frontline staff**, strengthening essential community services.
 
 <details>
+
 <summary><strong>Table: Key Industries in Proposed Sponsor Metros</strong></summary>
 
 ```{r, echo=FALSE}
@@ -1156,11 +1180,13 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-</details> 
+
+</details>
 
 # Conclusion
-Housing affordability improves when cities build steadily, not sporadically.  
 
-This analysis shows that consistent permitting, supported by smart federal incentives, can help every metro area balance growth with livability.  
+Housing affordability improves when cities build steadily, not sporadically.
+
+This analysis shows that consistent permitting, supported by smart federal incentives, can help every metro area balance growth with livability.
 
 By rewarding results and empowering local governments to build, this bill moves the nation **from housing shortage to housing stability**.
