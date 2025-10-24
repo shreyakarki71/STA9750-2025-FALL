@@ -6,10 +6,13 @@ title: "Shreya Karki"
 
 Her journey has taken her through Nepal, India, Australia, and now the United States, shaping her into someone who is adaptable, curious, and eager to keep learning.  
 
-She is currently diving deep into data analytics with the goal of becoming a *Business Analyst* who can bridge data and decision-making. Outside the classroom, you’ll probably find her traveling, trying new foods, or seeking new experiences.  
+She is currently diving deep into data analytics with the goal of becoming a *Business Analyst* who can bridge data and decision-making. 
+
+This website is a portfolio of her work from the Software Tools in Data Analysis (R) course. As you explore the projects, you will see her progress through the semester, with each piece showcasing new techniques and tools she learned and applied.
+
+Outside the classroom, you’ll probably find her traveling, trying new foods, or seeking out new experiences.
 
 Learn more about her professional journey [**here**](https://www.linkedin.com/in/shreya-karki/).
-
 
 
 ```{r}

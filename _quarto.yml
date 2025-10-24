@@ -14,6 +14,8 @@ website:
         menu:
           - text: "MP01"
             href: mp01.html
+          - text: "MP02"
+            href: mp02.html
 format:
   html:
     theme: minty  
