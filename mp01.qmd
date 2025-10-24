@@ -22,11 +22,11 @@ Netflix is one of the largest global streaming platforms, reaching audiences acr
 
 This project explores Netflix's **Top 10 data** (global and per-country) to answer key questions:
 
-- In how many countries does Netflix operate and how does content performance vary regionally? 
-- Which films and shows demonstrate sustained audience engagement versus short-term popularity?
-- How does local-language content perform globally, and what does this reveal about evolving viewer preferences?
+-   In how many countries does Netflix operate and how does content performance vary regionally?
+-   Which films and shows demonstrate sustained audience engagement versus short-term popularity?
+-   How does local-language content perform globally, and what does this reveal about evolving viewer preferences?
 
-The results are not just technical outputs, they reveal how Netflix identifies hit shows, supports local-language films, and builds worldwide franchises.  
+The results are not just technical outputs, they reveal how Netflix identifies hit shows, supports local-language films, and builds worldwide franchises.
 
 By systematically analyzing this data, three data-driven press releases are written that highlight success of films.
 
@@ -59,7 +59,7 @@ if(!file.exists(COUNTRY_TOP_10_FILENAME)){
 
 # Data Cleaning
 
-To prepare the datasets for analysis, several preprocessing steps were performed to ensure consistency and readability. 
+To prepare the datasets for analysis, several preprocessing steps were performed to ensure consistency and readability.
 
 **Step 1** : Read the raw data into R.
 
@@ -97,6 +97,7 @@ GLOBAL_TOP_10 <- GLOBAL_TOP_10 |>
 ```
 
 **Step 4** : Verify that the replacement worked as expected.
+
 ```{r check_corrected_dataset, eval=TRUE, echo=TRUE, include=TRUE}
 # Check structure again to confirm "N/A" values are now NA
 
@@ -133,11 +134,11 @@ GLOBAL_TOP_10 |>
 
 When previewing the first rows of the global dataset, several formatting issues were observed:
 
-1. Column names written in as `weekly_hours_viewed` instead of human-readable Title Case. 
+1.  Column names written in as `weekly_hours_viewed` instead of human-readable Title Case.
 
-2. Large numeric values (e.g., hours viewed) are displayed without commas, making them harder to read.
+2.  Large numeric values (e.g., hours viewed) are displayed without commas, making them harder to read.
 
-**Step 7** : To improve readability, the column names were reformatted and large numbers formatted with commas with following codes: 
+**Step 7** : To improve readability, the column names were reformatted and large numbers formatted with commas with following codes:
 
 ```{r minutes_convert, eval=TRUE, echo=TRUE, include=TRUE}
 
@@ -185,11 +186,11 @@ GLOBAL_TOP_10 |>
 
 With the datasets cleaned and prepared, the next step is to conduct analysis.
 
-This stage focuses on identifying patterns and answering guiding questions about Netflix’s global reach, audience preferences, and the performance of different types of content.  
+This stage focuses on identifying patterns and answering guiding questions about Netflix’s global reach, audience preferences, and the performance of different types of content.
 
 The following section presents **Key Insights** that emerged from this analysis.
 
----
+------------------------------------------------------------------------
 
 ## Global Operational Footprint
 
@@ -200,9 +201,10 @@ global_reach <- COUNTRY_TOP_10 |>
   count()
 ```
 
-With a presence in **`r global_reach$n` countries**, Netflix operates at a global scale. 
+With a presence in **`r global_reach$n` countries**, Netflix operates at a global scale.
 
 ## Performance of Non-English Language Films
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 # Non-English film with most cumulative weeks
 global_nonenglish <- GLOBAL_TOP_10 |>
@@ -213,7 +215,8 @@ global_nonenglish <- GLOBAL_TOP_10 |>
 
 **`r global_nonenglish$show_title`** sustained audience interest for **`r global_nonenglish$cumulative_weeks_in_top_10` weeks**, making it one of the most popular international releases in Netflix’s history.
 
-## Longest Movie to Stay in Top 10 
+## Longest Movie to Stay in Top 10
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 # Longest film among English/Non-English films
 longest_film <- GLOBAL_TOP_10 |> 
@@ -225,6 +228,7 @@ longest_film <- GLOBAL_TOP_10 |>
 With a runtime of **`r round(longest_film$runtime_in_minutes[[1]])`** minutes, **`r longest_film$show_title[[1]]`** is the longest film of any language to have ever appeared in the Netflix global Top 10.
 
 ## Most-Watched Shows and Films in Each Category
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 # Summarise total hours by category and title
 most_watched <- GLOBAL_TOP_10 |>
@@ -244,6 +248,7 @@ datatable(most_watched_top,
 ```
 
 ## Regional Content Longevity
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
 # Find the TV show with the longest continuous run in one country
@@ -261,6 +266,7 @@ longest_tv_run <- COUNTRY_TOP_10 |>
 In **`r longest_tv_run$country_name`**, the series **`r longest_tv_run$show_title`** held a Top 10 spot for **`r longest_tv_run$longest_run`** weeks, the longest continuous run recorded in a single country.
 
 ## Country with Limited Netflix Service History
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
 #Identify country with the fewest Netflix Top 10 weeks recorded
@@ -277,8 +283,8 @@ limited_country <- country_weeks |>
 
 Netflix provides over 200 weeks of service history for all but one country. **`r limited_country$country_name`** has only **`r limited_country$total_weeks`** weeks of Top 10 data.
 
-
 ## Squid Games Total Viewership Across All Seasons
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 # Total viewing hours for Squid Game across all versions
 squid_games <-GLOBAL_TOP_10 |>
@@ -286,10 +292,10 @@ squid_games <-GLOBAL_TOP_10 |>
   summarize(total_hours = sum(weekly_hours_viewed))
 ```
 
-Across all seasons, *Squid Game* has generated **`r format(round(squid_games$total_hours, 0), big.mark = ",", scientific = FALSE)`**
-hours of viewing, confirming its place as one of Netflix’s most impactful franchises worldwide.
+Across all seasons, *Squid Game* has generated **`r format(round(squid_games$total_hours, 0), big.mark = ",", scientific = FALSE)`** hours of viewing, confirming its place as one of Netflix’s most impactful franchises worldwide.
 
 ## Red Notice's Debut Year View Count
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
 # Calculate Red Notice total viewing hours in its debut year (2021)
@@ -300,10 +306,10 @@ red_notice <- GLOBAL_TOP_10 |>
   mutate(approx_views = total_hours / (1 + 58/60))
 ```
 
-Released in 2021, *Red Notice* reached approximately 
-**`r format(round(red_notice$approx_views, 0), big.mark = ",")`** views, illustrating the blockbuster potential of Netflix original films.
+Released in 2021, *Red Notice* reached approximately **`r format(round(red_notice$approx_views, 0), big.mark = ",")`** views, illustrating the blockbuster potential of Netflix original films.
 
 ## Slow Climb to the Top: Films That Grew Into #1 Hits
+
 ```{r,eval=TRUE, echo=TRUE, include=TRUE}
 
 # Debut row per film in the US
@@ -345,11 +351,12 @@ datatable(head(us_climbers, 10),
 
 ```
 
-In the United States, **`r us_film_climbers_total`** films debuted below #1 and later climbed to the top spot.  
+In the United States, **`r us_film_climbers_total`** films debuted below #1 and later climbed to the top spot.
 
-The most recent was **`r us_film_climber_latest$show_title`**, which first appeared at No. `r us_film_climber_latest$debut_rank`. 
+The most recent was **`r us_film_climber_latest$show_title`**, which first appeared at No. `r us_film_climber_latest$debut_rank`.
 
 ## Record-Breaking Global TV Debut
+
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 
 # Find each show's first appearance per country
@@ -376,7 +383,6 @@ most_popular_show <- debut_counts |> slice_head(n = 1)
 **`r most_popular_show$show_title`** had the strongest global debut, entering the Top 10 in `r most_popular_show$num_countries` countries during its debut period.
 
 # Press Release
-
 
 ## Stranger Things Final Season Arrives After Surprising Global Run
 
@@ -426,11 +432,11 @@ season_stats <- COUNTRY_TOP_10 |>
   arrange(season)
 ```
 
-Stranger Things has become one of Netflix’s most enduring global hits, appearing in the top 10 for `r stranger_weeks` weeks across `r total_countries` countries. 
+Stranger Things has become one of Netflix’s most enduring global hits, appearing in the top 10 for `r stranger_weeks` weeks across `r total_countries` countries.
 
 While the show’s roots are firmly set in Hawkins, Indiana, its reach has extended far beyond the U.S, with Serbia emerging as an unexpected standout. Audiences there kept the series in their top 10 for `r country_counts$appearances[1]` weeks, reflecting the show’s unusual ability to resonate across cultures.
 
-The series maintained strong audience interest across all seasons, with particularly notable performance for the first and most recent seasons. 
+The series maintained strong audience interest across all seasons, with particularly notable performance for the first and most recent seasons.
 
 **Season-by-Season Growth**
 
@@ -446,7 +452,7 @@ ggplot(season_stats, aes(x = season, y = appearances)) +
 ```
 
 Part of its exceptional popularity in Serbia can be traced to the casting of local actor Nikola Đuričko as Yuri, the smuggler in season four. His performance generated buzz in local media and gave Serbian viewers a personal connection to the series.
- 
+
 The final season arrives with this unique legacy: a series that started as a nostalgic American story but became a global phenomenon, proving that good stories and good casting choices can create unexpected connections across borders.
 
 ## Hindi Films Make Global Box Office Waves on Netflix
@@ -533,15 +539,15 @@ top_markets <- head(percentage_analysis, 5)
 
 ```
 
-Hindi blockbusters are no longer just local sensations, they are shaping a new global market for streaming hits. 
+Hindi blockbusters are no longer just local sensations, they are shaping a new global market for streaming hits.
 
 Hindi films account for `r hindi_share_pct`% of all film appearances in India’s Top 10 charts, underscoring their dominant position in the country’s streaming landscape.
 
-Some titles became runaway sensations, spending weeks in the rankings. 
+Some titles became runaway sensations, spending weeks in the rankings.
 
-- **`r top3_hindi$show_title[1]`** held its spot for `r top3_hindi$weeks_in_india[1]` weeks 
-- **`r top3_hindi$show_title[2]`** stayed for `r top3_hindi$weeks_in_india[2]` weeks, and 
-- **`r top3_hindi$show_title[3]`** logged `r top3_hindi$weeks_in_india[3]` weeks. 
+-   **`r top3_hindi$show_title[1]`** held its spot for `r top3_hindi$weeks_in_india[1]` weeks
+-   **`r top3_hindi$show_title[2]`** stayed for `r top3_hindi$weeks_in_india[2]` weeks, and
+-   **`r top3_hindi$show_title[3]`** logged `r top3_hindi$weeks_in_india[3]` weeks.
 
 In the earliest tracked year, Hindi films appeared `r earliest_year_count` times in India’s Top 10. By the most recent year, that number had grown to `r latest_year_count`, showing a clear `r hindi_popularity_trend` trend in audience demand.
 
@@ -599,16 +605,16 @@ kpop_countries <- COUNTRY_TOP_10 |>
   arrange(desc(weeks_in_country_top10))
 ```
 
-*K-Pop Demon Hunters* has  maintained an impressive presence in Netflix's global top 10 ever since its release, remaining in the charts for `r kpop_stats$total_weeks` consecutive weeks. 
+*K-Pop Demon Hunters* has maintained an impressive presence in Netflix's global top 10 ever since its release, remaining in the charts for `r kpop_stats$total_weeks` consecutive weeks.
 
 The series achieved a peak rank of `r kpop_stats$best_rank` worldwide while accumulating `r round(kpop_stats$total_hours / 1e6, 1)` million viewing hours, proving that innovative genre fusion can create its own category of hit content.
 
 The series turned cultural specificity into a strategic advantage, blending K-pop's massive global appeal with supernatural storytelling to create must-watch television. Rather than limiting its reach, the show's unique identity became its superpower, building a dedicated international audience that returned week after week.
 
-# Conclusion 
+# Conclusion
 
-The results of the analysis show that Netflix success take many forms.  While Stranger Things built lasting global momentum with `r stranger_weeks` weeks across `r total_countries` countries, K-Pop Demon Hunters sustained attention for `r kpop_stats$total_weeks` straight weeks, proving consistency can rival spectacle. 
+The results of the analysis show that Netflix success take many forms. While Stranger Things built lasting global momentum with `r stranger_weeks` weeks across `r total_countries` countries, K-Pop Demon Hunters sustained attention for `r kpop_stats$total_weeks` straight weeks, proving consistency can rival spectacle.
 
-On the contrary,  Hindi films, accounting for `r hindi_share_pct`% of India’s Top 10, showed how local cinema can grow into a global streaming force. 
+On the contrary, Hindi films, accounting for `r hindi_share_pct`% of India’s Top 10, showed how local cinema can grow into a global streaming force.
 
 Together, these cases illustrate that there is no single formula for streaming success. Longevity, cultural specificity, and regional strength each play a role in building hits that travel across borders and resonate with diverse audiences worldwide.
