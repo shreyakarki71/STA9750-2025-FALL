@@ -405,7 +405,7 @@ In the latest year (`r max(ds_named$YEAR)`), `r ds_named$NAME[ds_named$YEAR == m
 
 ## Financial Sector Concentration: NYC Case Study
 
-```{r, task2_q5, eval=TRUE, echo=FALSE, include=TRUE, results='hide'}
+```{r, task2_q5}
 
 # Filter NYC CBSA (find name containing "New York")
 NYC_wages <- WAGES |>
@@ -1095,68 +1095,19 @@ The table highlights two contrasting metros that capture both **success and need
 
 Together, these cities make a compelling case for **federal incentives that expand local housing capacity** while maintaining affordability.
 
-# Policy Brief
-
-## Why this bill is needed
-
-Across U.S. metropolitan areas, **rent burdens remain high even as incomes rise**.
-
-Our analysis shows that metros which **consistently permit new housing** experience **lower rent burdens** without slowing job or population growth.
-
-Federal incentives can help local governments sustain this success by encouraging **steady, multi-year housing pipelines** rather than short-term construction spikes.
-
-## Understanding the metrics
-
-Two indicators guide where policy can have the greatest impact:
-
--   **Rent Burden (%):** Share of a typical household’s income spent on rent\
-    *(Monthly Rent × 12 ÷ Household Income × 100)*.\
-    Standardized into a **Burden Score (0–100)**, where higher values signal greater affordability pressure.
-
--   **Housing Growth (Composite Score):** Combines two complementary measures:
-
-    1.  **Production (instantaneous)** — housing permits per 1,000 residents, reflecting current construction activity.\
-    2.  **Rate-based (5-year responsive)** — housing permits relative to population growth, showing whether new supply keeps pace with demand.
-
-Higher scores indicate regions successfully matching construction to population needs.
-
-## Recommended congressional sponsors
-
-Two metro areas best illustrate the **case for balanced housing reform** — one showing how well pro-housing policies can work, and another showing why federal support is needed.
-
--   **Primary Sponsor (YIMBY Success):** `r primary_name` Here, rent burden **fell from `r round(primary$early_burden,1)`% to `r round(primary$recent_burden,1)`%**, while the population grew **`r round(primary$pop_growth,1)`%** and the **housing growth score** reached **`r round(primary$avg_housing_growth,1)`**.
-
-This metro shows that when cities keep permitting consistent, **affordability improves even as demand grows**.
-
--   **Co-Sponsor (High Burden, Low Growth):** `r cosponsor_name`\
-    In contrast, rent burden **rose from `r round(cosponsor$early_burden,1)`% to `r round(cosponsor$recent_burden,1)`%**, with limited population growth (**`r round(cosponsor$pop_growth,1)`%**) and a **low housing growth score (`r round(cosponsor$avg_housing_growth,1)`)**.
-
-This city reflects the challenges faced by regions where **housing supply lags behind demand**, the very places this bill aims to help.
-
-Together, these two regions make a strong case for a **national framework that rewards steady homebuilding**, prevents rent spikes, and supports inclusive urban growth.
-
-## Coalition: who benefits from expanding housing
-
-Broad-based support for this bill can come from key industries that directly gain from more stable housing markets:
-
--   **Construction (NAICS 23):** Predictable permitting creates steady, skilled jobs and stronger wage security for workers.\
--   **Health Care & Social Assistance (NAICS 62):** Affordable housing allows hospitals and clinics to **retain nurses, aides, and frontline staff**, strengthening essential community services.
-
-<details>
-
-<summary><strong>Table: Key Industries in Proposed Sponsor Metros</strong></summary>
-
-```{r, echo=FALSE}
+```{r policy_brief}
 # Map WAGES CBSA to names using POPULATION 
 cbsa_map <- POPULATION %>%
   distinct(GEOID, NAME) %>%
   mutate(std_cbsa = paste0("C", GEOID)) %>%
   select(std_cbsa, NAME)
 
+# Join wage data with metro names for readability
 wages_named <- WAGES %>%
   mutate(std_cbsa = paste0(FIPS, "0")) %>%
   inner_join(cbsa_map, by = "std_cbsa")
 
+# Filter for target metros and industries, then summarize
 two_metros <- wages_named %>%
   filter(NAME %in% c(primary_name, cosponsor_name),
          INDUSTRY %in% c(23, 62)) %>%
@@ -1172,18 +1123,50 @@ two_metros <- wages_named %>%
     TRUE ~ paste0("NAICS ", INDUSTRY)
   )) %>%
   select(Industry, Metro = NAME, Employment, `Avg Annual Wage (USD)`)
-
-DT::datatable(
-  two_metros,
-  caption = "Key Industries in the Two Proposed Sponsor Metros",
-  options = list(pageLength = 5, searching = FALSE),
-  rownames = FALSE
-)
 ```
 
-</details>
+# **Policy Brief: A National Framework for Housing Affordability**
 
-# Conclusion
+**MEMORANDUM**
+
+**TO:** Interested Members of Congress\
+**FROM:** Housing Policy Analyst\
+**DATE:** October 26, 2023\
+**SUBJECT:** The Need for Federal Incentives to Encourage Steady Local Housing Construction
+
+**1. Issue Overview**
+
+Rent burdens remain critically high across U.S. metropolitan areas, undermining household financial security and regional economic stability. This crisis persists even amid rising incomes and job growth, indicating a fundamental failure of housing supply to meet demand.
+
+**2. Key Findings**
+
+Data reveals a clear solution: metropolitan areas that maintain a consistent pipeline of new housing construction successfully lower rent burdens without negatively impacting population or job growth. The current challenge is that local permitting is often volatile, leading to short-term construction spikes rather than the steady, multi-year supply needed to stabilize markets.
+
+**3. Policy Recommendation**
+
+Congress should establish a federal incentive program that rewards local governments for sustaining higher rates of housing production. This program would use a composite metric to evaluate success, combining:
+
+-   **Current Construction Activity:** Housing permits per 1,000 residents.
+
+-   **Responsive Growth:** Whether permit issuance has kept pace with population growth over a five-year period.
+
+**4. Evidence for Action**
+
+The success of this approach is demonstrated by the contrasting outcomes in two metropolitan areas:
+
+-   **`r primary_name` (Model for Success):** By prioritizing consistent housing permits, this metro reduced its rent burden from **`r round(primary$early_burden,1)`%** to **`r round(primary$recent_burden,1)`%** while its population grew **`r round(primary$pop_growth,1)`%**. This proves affordability is achievable alongside growth.
+
+-   **`r cosponsor_name` (Case for Intervention):** This city, where housing supply has lagged, saw its rent burden rise from **`r round(cosponsor$early_burden,1)`%** to **`r round(cosponsor$recent_burden,1)`%** despite minimal population growth. It exemplifies the regions this bill is designed to help.
+
+**5. Coalition of Support**
+
+A federal incentive for housing production will build a powerful coalition, receiving strong support from major industries that benefit from stable housing markets:
+
+-   **Construction:** Predictable permitting creates steady, skilled jobs. In `r primary_name`, this sector employs over `r scales::comma(two_metros$Employment[1])` workers with average wages of `r scales::dollar(two_metros$'Avg Annual Wage (USD)'[1])`, while in `r cosponsor_name`, it provides `r scales::comma(two_metros$Employment[3])` jobs.
+
+-   **Health Care & Social Assistance:** Affordable housing is key to retaining essential frontline staff. This sector employs `r scales::comma(two_metros$Employment[2])` workers in `r primary_name` and `r scales::comma(two_metros$Employment[4])` in `r cosponsor_name`—demonstrating its critical role in both regional and rural economies.
+
+**Conclusion**
 
 Housing affordability improves when cities build steadily, not sporadically.
 
