@@ -1,6 +1,11 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - index.qmd
+    - mp01.qmd
+    - mp02.qmd
+    - mp03.qmd
 
 website:
   title: "STA 9750 "
@@ -13,13 +18,17 @@ website:
       - text: "Mini-Projects"
         menu:
           - text: "MP01"
-            href: mp01.html
+            href: mp01.qmd
           - text: "MP02"
-            href: mp02.html
+            href: mp02.qmd
+          - text: "MP03"
+            href: mp03.qmd
+
 format:
   html:
-    theme: minty  
+    theme: minty
     toc: false
 
 editor:
   mode: source
+
