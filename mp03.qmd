@@ -523,7 +523,7 @@ Code and analysis for flood vulnerability assessment are shown below.\
 
 ## Vulnerability Analysis
 
-```{r vulnerability_analysis, echo = FALSE, message=FALSE, warning=FALSE}
+```{r vulnerability_analysis, message=FALSE, warning=FALSE}
 # Classify species as flood-vulnerable or resilient; summarize by district
 vulnerable_species <- c("Acer platanoides", "Platanus x acerifolia", "Pyrus calleryana",
                         "Ginkgo biloba", "Quercus palustris")
@@ -666,7 +666,7 @@ By acting now, DPR can safeguard District 4's canopy before recurring storms cau
 
 **Chart 1 — Comparative District Vulnerability**
 
-```{r show_vulnerability_chart, echo=FALSE, fig.width=8, fig.height=5, dpi=220}
+```{r show_vulnerability_chart, fig.width=8, fig.height=5, dpi=220}
 
 vulnerability_chart +
   labs(
@@ -691,7 +691,7 @@ vulnerability_chart +
 
 **Map 1 — District 4 Priority Intervention Areas**
 
-```{r show_map, echo=FALSE, fig.width=6.2, fig.height=6.6, dpi=220}
+```{r show_map, fig.width=6.2, fig.height=6.6, dpi=220}
 # Count for subtitle (brief metric)
 vuln_count <- sum(d4_trees$vulnerability_status == "Vulnerable", na.rm = TRUE)
 
