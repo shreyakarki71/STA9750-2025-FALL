@@ -19,10 +19,10 @@ editor: visual
 
 New York City’s landscape is more than towers and traffic, it is also home to nearly one million trees that form the city’s “urban forest.” These quiet giants work around the clock to keep the city livable:
 
-- Cooling streets during summer heat waves
-- Filtering air pollutants and improving public health
-- Absorbing stormwater and reducing flood risk
-- Enhancing neighborhood character and property values
+-   Cooling streets during summer heat waves
+-   Filtering air pollutants and improving public health
+-   Absorbing stormwater and reducing flood risk
+-   Enhancing neighborhood character and property values
 
 With this project, I take on the role of a tree detective, using public data to understand where NYC’s canopy thrives and where it needs the most care. The goal is to build evidence for future investments that make District 4’s trees more resilient to climate change.
 
@@ -30,18 +30,17 @@ With this project, I take on the role of a tree detective, using public data to 
 
 This project follows the analytical workflow used by urban-data professionals and city agencies:
 
-1. **Data Acquisition**: responsibly downloading NYC Council District boundaries and the citywide street-tree inventory.
-2. **Spatial Integration**: aligning both datasets in a common coordinate system (WGS 84).
-3. **Exploratory Analysis**: identifying patterns in species, condition, and canopy distribution across districts.
-4. **Visual Storytelling**: producing clear, interpretable maps and summary graphics.
-5. **Policy Design**: translating data insights into recommendations for climate-resilient tree management. 
+1.  **Data Acquisition**: responsibly downloading NYC Council District boundaries and the citywide street-tree inventory.
+2.  **Spatial Integration**: aligning both datasets in a common coordinate system (WGS 84).
+3.  **Exploratory Analysis**: identifying patterns in species, condition, and canopy distribution across districts.
+4.  **Visual Storytelling**: producing clear, interpretable maps and summary graphics.
+5.  **Policy Design**: translating data insights into recommendations for climate-resilient tree management.
 
 Through this process, we contribute to a broader conversation: **how can New York ensure that the benefits of its trees are equitably shared among all neighborhoods?**
 
 # Data Acquisition and Preparation
 
-
-```{r load_package} 
+```{r load_package}
 # Load packages
 library(sf)
 library(dplyr)
@@ -60,10 +59,10 @@ These boundaries define New York’s 51 City Council Districts. Understanding tr
 
 The code in chunk `download_boundaries` below:
 
-- Creates a local project directory `(data/mp03/)` if it doesn’t exist
-- Downloads the official shapefile only once, to avoid unnecessary load on city servers
-- Unzips and reads the shapefile using `sf::st_read()`
-- Transforms the coordinate reference system to WGS 84, ensuring compatibility with other geographic datasets
+-   Creates a local project directory `(data/mp03/)` if it doesn’t exist
+-   Downloads the official shapefile only once, to avoid unnecessary load on city servers
+-   Unzips and reads the shapefile using `sf::st_read()`
+-   Transforms the coordinate reference system to WGS 84, ensuring compatibility with other geographic datasets
 
 Each row of the resulting object districts represents a Council District polygon with unique ID, geometry, and shape measurements.
 
@@ -109,20 +108,21 @@ download_nyc_districts <- function() {
 districts <- download_nyc_districts()
 
 ```
+
 ## NYC Tree Dataset
 
 **Source**: NYC Open Data, Forestry Tree Points (hn5i-inap) via API (SODA2).
 
-The Parks Department maintains a record of nearly 900,000 trees, including species, condition, and size. 
+The Parks Department maintains a record of nearly 900,000 trees, including species, condition, and size.
 
 These data, provided through the Socrata (SODA2) API, allow us to map trees to their council districts and assess canopy health citywide.
 
 The function in chunk tree_dataset downloads the data responsibly:
 
-- Queries the API in batches using `$limit` and `$offset` parameters
-- Uses `httr2’s req_url_query()` + `req_retry()` + `req_perform()` pattern for reliability
-- Saves each batch locally in `data/mp03/` to prevent repeated requests
-- Combines all pages with `bind_rows()` into a single sf object called trees
+-   Queries the API in batches using `$limit` and `$offset` parameters
+-   Uses `httr2’s req_url_query()` + `req_retry()` + `req_perform()` pattern for reliability
+-   Saves each batch locally in `data/mp03/` to prevent repeated requests
+-   Combines all pages with `bind_rows()` into a single sf object called trees
 
 Each record in `trees` includes geographic coordinates and key attributes like species `(genusspecies)`, diameter `(dbh)`, and condition `(tpcondition)`.
 
@@ -185,10 +185,10 @@ trees <- download_nyc_trees()
 
 # Data Cleaning
 
-To prepare for analysis, variable names were standardized and key fields checked for missing or inconsistent entries.
-Both datasets were lightly cleaned so they are consistent, easy to read, and ready for mapping.
+To prepare for analysis, variable names were standardized and key fields checked for missing or inconsistent entries. Both datasets were lightly cleaned so they are consistent, easy to read, and ready for mapping.
 
 ## Council Districts
+
 Columns such as `CounDist`, `Shape_Leng`, and `Shape_Area` were renamed to clearer, more descriptive names.
 
 This makes the data easier to interpret while keeping all original information intact.
@@ -266,6 +266,7 @@ A citywide map overlays individual tree points on the 51 City Council District b
 The visualization reveals broad spatial patterns—dense concentrations in Central Park, Prospect Park, and residential neighborhoods, contrasted with sparser coverage in commercial and industrial zones.
 
 This view highlights both the magnitude of the dataset and the uneven distribution of trees across the five boroughs.
+
 ```{r}
 # Plot all tree points over NYC Council District boundaries
 ggplot() +
@@ -286,10 +287,9 @@ ggplot() +
   theme(legend.position = "bottom")
 ```
 
-## Urban Forest Health Dashboard 
+## Urban Forest Health Dashboard
 
-An interactive Leaflet map summarizes tree density (trees per km²) at the borough level.
-Each polygon is shaded by canopy density, allowing users to compare borough-level coverage at a glance.
+An interactive Leaflet map summarizes tree density (trees per km²) at the borough level. Each polygon is shaded by canopy density, allowing users to compare borough-level coverage at a glance.
 
 This view confirms that while Queens and Brooklyn account for the largest total number of trees, Manhattan exhibits the highest density relative to land area—reflecting smaller geographic size and concentrated green corridors.
 
@@ -381,7 +381,7 @@ leaflet::leaflet(districts_density) |>
 
 # District Level Analysis of Trees
 
-This section analyzes how trees are distributed across New York City’s 51 Council Districts. 
+This section analyzes how trees are distributed across New York City’s 51 Council Districts.
 
 By integrating tree point data with district boundaries, it quantifies canopy coverage, density, and condition, highlighting both areas of strength and those that may need more investment.
 
@@ -391,7 +391,7 @@ Key measures include total tree count, canopy density, and tree health. The anal
 
 Identifying which districts host the most trees helps reveal where canopy coverage is concentrated and where new planting might be needed.
 
-```{r tree_count, echo = FALSE}
+```{r tree_count}
 # count of trees per district
 trees_per_district <- trees_with_districts |>
   count(council_district, name = "tree_count") |>
@@ -400,7 +400,7 @@ trees_per_district <- trees_with_districts |>
 
 **Finding**: Council District `r trees_per_district$council_district[1]` has the most trees with `r trees_per_district$tree_count[1]` trees.
 
-## Tree Density 
+## Tree Density
 
 Tree density measures how concentrated trees are relative to land area, providing a clearer picture of canopy coverage beyond simple counts.
 
@@ -412,12 +412,12 @@ tree_density <- districts_density |>
   mutate(tree_density = tree_count / area_km2) |>
   arrange(desc(tree_density))
 ```
-**Finding**: District `r tree_density$council_district[1]` shows the highest tree density, meaning it supports the most trees per unit of land. 
+
+**Finding**: District `r tree_density$council_district[1]` shows the highest tree density, meaning it supports the most trees per unit of land.
 
 ## Tree Health Assessment
 
 Examining tree condition across districts helps pinpoint areas with higher rates of tree loss or stress, signaling where maintenance or replacement efforts should be prioritized
-
 
 ```{r dead_trees}
 # Count dead trees in each district
@@ -431,6 +431,7 @@ dead_trees <- trees_with_districts |>
   arrange(desc(dead_fraction))
 
 ```
+
 **Finding**: District `r dead_trees$council_district[1]` has the highest share of dead trees `r round(dead_trees$dead_fraction[1] * 100, 1)`%, suggesting greater vulnerability or lower maintenance investment in that area.
 
 ## Species Composition in Manhattan
@@ -458,8 +459,8 @@ manhattan_trees <- trees_with_boroughs |>
 
 
 ```
-**Finding**: The species `r manhattan_trees$genus_species[1]` is the most common in Manhattan, with `r manhattan_trees$count[1]` recorded trees.
 
+**Finding**: The species `r manhattan_trees$genus_species[1]` is the most common in Manhattan, with `r manhattan_trees$count[1]` recorded trees.
 
 ## Campus Tree Analysis
 
@@ -513,9 +514,10 @@ leaflet() |>
 
 This chunk computes District 4 metrics, defines project scope and budget, and prepares data for the zoomed-in vulnerability map. The code below calculates vulnerability ratios, sets project parameters, and isolates District 4 tree data for visualization.
 
-::: {.callout-note}
+::: callout-note
 ## Technical Details
-Code and analysis for flood vulnerability assessment are shown below.  
+
+Code and analysis for flood vulnerability assessment are shown below.\
 [Skip to policy proposal below](#district-4-climate-resilient-canopy-initiative)
 :::
 
@@ -553,7 +555,8 @@ district_analysis <- species_vulnerability |>
   mutate(council_district = factor(council_district, levels = c(2,4,6,39)))
 
 ```
-## Comparative District Chart 
+
+## Comparative District Chart
 
 ```{r vulnerability_chart_plot, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 # Create vulnerability comparison bar chart
@@ -590,10 +593,9 @@ vulnerability_chart <- ggplot(
   )
 ```
 
-
 ## Calculations for District 4 Proposal
 
-This chunk computes District 4 metrics, defines project scope and budget, and prepares data for the zoomed-in vulnerability map.  
+This chunk computes District 4 metrics, defines project scope and budget, and prepares data for the zoomed-in vulnerability map.
 
 The code below calculates vulnerability ratios, sets project parameters, and isolates District 4 tree data for visualization.
 
@@ -635,16 +637,16 @@ d4_trees <- trees_with_districts |>
 bb <- st_bbox(d4_boundary)
 ```
 
-# District 4 Climate-Resilient Canopy Initiative
+# District 4 Climate-Resilient Canopy Initiative {#district-4-climate-resilient-canopy-initiative}
 
-**To:** NYC Department of Parks & Recreation (DPR); Mayor’s Office of Climate & Environmental Justice  
-**From:** Office of the Council Member, District 4  
-**Date:** `r format(Sys.Date(), "%B %d, %Y")`  
+**To:** NYC Department of Parks & Recreation (DPR); Mayor’s Office of Climate & Environmental Justice\
+**From:** Office of the Council Member, District 4\
+**Date:** `r format(Sys.Date(), "%B %d, %Y")`\
 **Subject:** Climate-Resilient Tree Initiative
 
----
+------------------------------------------------------------------------
 
-Across New York City, nearly **900,000 street and park trees** create an urban forest that cools neighborhoods, cleans the air, and manages stormwater. Yet the city's canopy faces growing stress from flooding and extreme rainfall events.  
+Across New York City, nearly **900,000 street and park trees** create an urban forest that cools neighborhoods, cleans the air, and manages stormwater. Yet the city's canopy faces growing stress from flooding and extreme rainfall events.
 
 **District 4 was selected for this initiative given its extensive East River waterfront and concentration of flood-vulnerable infrastructure**, including hospitals, schools, and major transit corridors along the 23rd–34th Street corridor.
 
@@ -654,13 +656,13 @@ To strengthen canopy resilience, the Council Office proposes the **District 4 Cl
 
 The project would remove approximately **`r proposed_replacements` high-risk trees** (including flood-sensitive species like **Norway Maple** and **London Planetree**) and install **`r new_resilient_plantings` new flood-tolerant species** such as **Swamp White Oak, Bald Cypress, and River Birch**.
 
-Altogether, these actions total **`r total_interventions` interventions**, with an estimated budget of **$`r format(estimated_budget, big.mark = ",")`** covering removal, planting, soil improvement, and stewardship support.
+Altogether, these actions total **`r total_interventions` interventions**, with an estimated budget of **\$`r format(estimated_budget, big.mark = ",")`** covering removal, planting, soil improvement, and stewardship support.
 
 This initiative aligns directly with New York City's **2023 Climate Resiliency Plan** and the **Parks Department's Urban Canopy Strategy**, reducing reliance on flood-intolerant species and lowering long-term emergency removal costs. Beyond resilience, it advances multiple co-benefits: **cooler summer streets, cleaner air, and stronger neighborhood engagement** through resident care guides and stewardship sign-ups.
 
 By acting now, DPR can safeguard District 4's canopy before recurring storms cause irreversible losses. **This project illustrates how local data can guide equitable, cost-effective adaptation**, providing a replicable model for other flood-prone districts citywide.
 
----
+------------------------------------------------------------------------
 
 **Chart 1 — Comparative District Vulnerability**
 
@@ -752,10 +754,9 @@ ggplot() +
     )
   )
 ```
----
 
-<div style="text-align:center; font-size:0.85em; color:gray; margin-top:20px;">
-  This work ©2025 was initially prepared as a Mini-Project for <strong>STA 9750</strong> at <strong>Baruch College</strong>.<br>More details about the course can be found at the 
-  <a href="https://michael-weylandt.com/STA9750/">course site</a>, and full assignment instructions are available under 
-  <a href="https://michael-weylandt.com/STA9750/miniprojects/mini03.html">Mini-Project #03</a>.
-</div>
+------------------------------------------------------------------------
+
+::: {style="text-align:center; font-size:0.85em; color:gray; margin-top:20px;"}
+This work ©2025 was initially prepared as a Mini-Project for <strong>STA 9750</strong> at <strong>Baruch College</strong>.<br>More details about the course can be found at the <a href="https://michael-weylandt.com/STA9750/">course site</a>, and full assignment instructions are available under <a href="https://michael-weylandt.com/STA9750/miniprojects/mini03.html">Mini-Project #03</a>.
+:::
