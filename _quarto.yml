@@ -18,11 +18,11 @@ website:
       - text: "Mini-Projects"
         menu:
           - text: "MP01"
-            href: mp01.qmd
+            href: mp01.html
           - text: "MP02"
-            href: mp02.qmd
+            href: mp02.html
           - text: "MP03"
-            href: mp03.qmd
+            href: mp03.html
 
 format:
   html:

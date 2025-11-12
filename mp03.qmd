@@ -14,15 +14,6 @@ execute:
   message: false
 editor: visual
 ---
-```{r load_package, include = FALSE} 
-library(sf)
-library(dplyr)
-library(httr2)
-library(stringr)
-library(tidyverse)
-library(leaflet)
-library(grid)
-```
 
 # Introduction
 
@@ -48,6 +39,18 @@ This project follows the analytical workflow used by urban-data professionals an
 Through this process, we contribute to a broader conversation: **how can New York ensure that the benefits of its trees are equitably shared among all neighborhoods?**
 
 # Data Acquisition and Preparation
+
+
+```{r load_package} 
+# Load packages
+library(sf)
+library(dplyr)
+library(httr2)
+library(stringr)
+library(tidyverse)
+library(leaflet)
+library(grid)
+```
 
 ## Council District Boundaries
 
@@ -402,14 +405,11 @@ trees_per_district <- trees_with_districts |>
 Tree density measures how concentrated trees are relative to land area, providing a clearer picture of canopy coverage beyond simple counts.
 
 ```{r tree_density}
-# Calculate tree density per district 
-tree_density <- trees_with_districts |>
-  group_by(council_district) |>
-  summarise(
-    tree_count = n(),
-    shape_area = first(shape_area),
-    tree_density = tree_count / shape_area
-  ) |>
+# Calculate tree density per district using geometric area_km2
+tree_density <- districts_density |>
+  sf::st_drop_geometry() |>
+  select(council_district, tree_count, area_km2) |>
+  mutate(tree_density = tree_count / area_km2) |>
   arrange(desc(tree_density))
 ```
 **Finding**: District `r tree_density$council_district[1]` shows the highest tree density, meaning it supports the most trees per unit of land. 
@@ -458,14 +458,14 @@ manhattan_trees <- trees_with_boroughs |>
 
 
 ```
-**Finding**: The species `r manhattan_trees$genus_species[1]` the most common in Manhattan, with `r manhattan_trees$count[1]` recorded trees.
+**Finding**: The species `r manhattan_trees$genus_species[1]` is the most common in Manhattan, with `r manhattan_trees$count[1]` recorded trees.
 
 
 ## Campus Tree Analysis
 
 A hyperlocal analysis reveals the tree closest to Baruch College.
 
-```{r baruch_tree, echo = FALSE}
+```{r baruch_tree}
 # create  function
 new_st_point <- function(lat, lon, ...){
     st_sfc(st_point(c(lon, lat))) |>  
@@ -544,7 +544,7 @@ species_vulnerability <- trees_with_districts |>
   ) |>
   arrange(desc(vulnerability_ratio))
 
-#  District 4 and 3 Manhattan peer districts
+#   District 4 and three peer districts
 target_district      <- 4
 comparison_districts <- c(2, 6, 39)
 
