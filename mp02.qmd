@@ -284,7 +284,7 @@ Following the YIMBY idea that permissive zoning and increased housing supply can
 
 # Data Relationship Diagram
 
-![](docs/MP02.svg){fig-align="center" width="100%"}
+![](docs/MP02.svg){fig-align="center"}
 
 ::: callout-tip
 ## Key Data Relationships
