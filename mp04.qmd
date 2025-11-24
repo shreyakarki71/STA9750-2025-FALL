@@ -266,7 +266,7 @@ To diagnose these issues, a short series of summaries was used to identify where
 Only a small number of irregular rows were detected in the scraped revision tables. These entries came from non-data elements in the source HTML and were removed to ensure that every remaining record represents a valid monthly observation between 1979 and 2025.
 :::
 
-### Inspect the number of missing values across key fields
+1.  **Inspect the number of missing values across key fields**
 
 ```{r, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 # Inspect NA problems in raw revisions table
@@ -280,7 +280,7 @@ ces_revisions |>
   )
 ```
 
-### Display example rows containing missing or malformed values
+2.  **Display example rows containing missing or malformed values**
 
 ```{r show_na, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 
@@ -289,7 +289,7 @@ ces_revisions |>
   head(20)
 ```
 
-### Verify that all expected years are represented
+3.  **Verify that all expected years are represented**
 
 ```{r, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 ces_revisions |> 
@@ -297,7 +297,7 @@ ces_revisions |>
   count(year)
 ```
 
-### Filter out incomplete rows and restrict to the 1979–2025 analysis period
+4.  **Filter out incomplete rows and restrict to the 1979–2025 analysis period**
 
 ```{r fix,echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 
@@ -311,7 +311,7 @@ ces_revisions_clean <- ces_revisions |>
   )
 ```
 
-### Compare the number of rows before and after cleaning
+5.  **Compare the number of rows before and after cleaning**
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -780,7 +780,7 @@ Two common techniques make this possible:
 
 By comparing the **observed statistic** (the one from the real data) to the **distribution of simulated statistics**, we can tell whether our result is unusually large or completely ordinary. This gives us a simulation based p-value that is intuitive and does not depend on heavy mathematical assumptions, exactly the kind of explanation that works well for general audiences like Politifact or news fact-checkers
 
-## 2. Schematic Visualization: How Computational Methods Work
+## Schematic Visualization: How Computational Methods Work
 
 Below is a simple, non-technical “how it works” flowchart:
 
