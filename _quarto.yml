@@ -6,6 +6,7 @@ project:
     - mp01.qmd
     - mp02.qmd
     - mp03.qmd
+    - mp04.qmd
 
 website:
   title: "STA 9750 "
@@ -23,6 +24,8 @@ website:
             href: mp02.html
           - text: "MP03"
             href: mp03.html
+          - text: "MP04"
+            href: mp04.html
 
 format:
   html:
