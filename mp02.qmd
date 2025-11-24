@@ -1179,4 +1179,3 @@ By rewarding results and empowering local governments to build, this bill moves 
 ::: {style="text-align:center; font-size:0.85em; color:gray; margin-top:20px;"}
 This work ©2025 was initially prepared as a Mini-Project for <strong>STA 9750</strong> at <strong>Baruch College</strong>.<br>More details about the course can be found at the <a href="https://michael-weylandt.com/STA9750/">course site</a>, and full assignment instructions are available under <a href="https://michael-weylandt.com/STA9750/miniprojects/mini02.html">Mini-Project #02</a>.
 :::
-
