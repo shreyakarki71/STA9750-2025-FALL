@@ -7,9 +7,10 @@ project:
     - mp02.qmd
     - mp03.qmd
     - mp04.qmd
+    - individual_report.qmd   
 
 website:
-  title: "STA 9750 "
+  title: "STA 9750"
   description: "Course projects for STA 9750 at Baruch College"
   site-url: "https://shreyakarki71.github.io/STA9750-2025-FALL/"
   navbar:
@@ -27,6 +28,9 @@ website:
           - text: "MP04"
             href: mp04.html
 
+      - text: "Course Project"
+        href: individual_report.html
+
 format:
   html:
     theme: minty
@@ -34,4 +38,5 @@ format:
 
 editor:
   mode: source
+
 

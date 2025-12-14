@@ -1,0 +1,717 @@
+---
+title: "Weather, Humans, and Rats: How Temperature and Rain Shape 311 Rodent Reporting in NYC"
+author: "Shreya Karki"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    number-sections: true
+    smooth-scroll: true
+execute:
+  echo: true
+editor: visual
+---
+
+# Introduction
+
+New York City’s 311 system receives tens of thousands of rodent-related complaints each year. These reports are widely used as research inputs, media indicators, and policy metrics to infer where rats are “most active.” Yet 311 data measure more than just rats: they also measure **human behavior**, including when people are outdoors, how comfortable they feel, and how motivated they are to report what they see.
+
+Weather plays a central role in both processes. Warm and dry conditions increase outdoor activity and visibility, while cold or rainy weather keeps people inside. Likewise, rat biology is strongly temperature-dependent: rats forage more, travel more, and interact with human environments more frequently in warm conditions.
+
+> **How do temperature and precipitation influence the reporting of rodent sightings in NYC?**
+
+Understanding this distinction is essential for interpreting complaint patterns accurately. If weather is a major driver of reporting, then spikes in complaints may not indicate a “rat surge,” but instead simply improved conditions for humans to observe and report rats. The goal of this analysis is to quantify that relationship and evaluate its strength.
+
+**Role in Group Project:**\
+
+This analysis corresponds to Sub-Question 1 (SQ1): *Weather Favorability*, part of the Objective Rat Conditions framework. Responsibilities for this SQ included acquiring NOAA weather data, processing and standardizing temperature and precipitation metrics, constructing the Weather Favorability Score (WFS), and evaluating how weather systematically shapes 311 reporting behavior.
+
+# Data Acquisition
+
+This project uses two independent datasets:
+
+-   **NYC 311 Rodent Complaints** — from the NYC SODA API; and
+-   **NOAA Daily Weather Data** — from the CDO API (GHCND, Central Park Station).
+
+Both are retrieved using `httr2`, which ensures transparency and reproducibility. To avoid long render times, raw API pulls were executed once and saved locally; the code below shows the full workflow used.
+
+```{r setup-libraries, include=FALSE}
+library(httr2)
+library(dplyr)
+library(readr)
+library(lubridate)
+library(tidyr)
+library(purrr)
+library(tibble)
+library(ggplot2)
+library(broom)
+library(scales)
+library(patchwork)
+library(gt)
+```
+
+## NYC 311 Rodent Complaint Data (Socrata API)
+
+The Socrata API provides event-level complaint data with timestamps and locations. Because large requests require pagination, a custom function manages offset-based downloads across multiple pages.
+
+```{r  download_311_function}
+# implements pagination for datasets exceeding 50,000 records
+
+download_311 <- function(start_date = "2018-01-01T00:00:00.000") {
+  
+  rodent_url <- "https://data.cityofnewyork.us/resource/cvf2-zn8s.csv"
+ 
+  # Base request template with essential parameters
+  base_req <- request(rodent_url) |>
+    req_url_query(
+      "$select" = "created_date, borough, latitude, longitude",
+      "$where"  = paste0("created_date >= '", start_date, "'"),
+      "$order"  = "created_date", # Required for stable pagination
+      "$limit"  = "50000"
+    ) |>
+    req_retry(max_tries = 5) |>
+    req_error(is_error = ~ FALSE)
+
+  offset <- 0
+  page <- 1
+  pages <- list()
+
+ # Pagination loop: continue until empty response
+  repeat {
+    message("Page ", page, " (offset = ", offset, ")")
+
+    batch <- base_req |>
+      req_url_query("$offset" = offset) |>
+      req_perform() |>
+      resp_body_string() |>
+      read_csv(show_col_types = FALSE)
+
+    if (nrow(batch) == 0) break
+
+    pages[[page]] <- batch
+    offset <- offset + 50000
+    page <- page + 1
+  }
+
+ # Combine all pages into single data frame
+  bind_rows(pages) 
+  }
+
+```
+
+The full 2018–2025 dataset was previously downloaded and saved locally.
+
+```{r 311_rodent, message=FALSE, warning=FALSE, results='hide'}
+
+rodent_raw <- read_csv("data/individual_report/rodent_2018_2025.csv", show_col_types = FALSE)
+glimpse(rodent_raw)
+```
+
+## NOAA Daily Weather Data (CDO API)
+
+Weather data comes from the **Central Park GHCND station (USW00094728)**, one of the most complete and stable weather records in the country. The CDO API limits requests to 1,000 rows, so data are retrieved year-by-year with automated pagination.
+
+**Load Token**
+
+```{r token_noaa}
+# NOAA API requires a personal token. Storing it in .Renviron
+# improves reproducibility, prevents accidental GitHub leaks, and
+# follows best practices taught in STA 9750.
+noaa_token <- Sys.getenv("NOAA_TOKEN")
+
+if (noaa_token == "") {
+  stop("NOAA_TOKEN not found — please add it to your .Renviron file.")
+}
+```
+
+**Base NOAA Request Template**
+
+```{r download_weather_data, eval = FALSE}
+
+# Templated request stores shared parameters:
+# - datasetid: Daily Summaries (GHCND)
+# - stationid: Central Park weather station
+# - breaking into 1-year chunks due to API limits
+#
+# Using a template prevents duplication in pagination requests
+# and ensures consistency across all API calls.
+noaa_base <- "https://www.ncei.noaa.gov/cdo-web/api/v2/data"
+
+noaa_template <- request(noaa_base) |>
+  req_headers(
+    token = noaa_token,
+    Accept = "application/json"
+  ) |>
+  req_url_query(
+    datasetid       = "GHCND",
+    stationid       = "GHCND:USW00094728",
+    units           = "standard",
+    datatypeid      = "TMAX,TMIN,PRCP",
+    includemetadata = "true",        
+    limit           = 1000
+  )
+```
+
+**Year-by-Year Download Function**
+
+```{r noaa_function, eval = FALSE}
+
+# NOAA Daily Weather Data (GHCND — Central Park Station)
+# Download Years: 2018–2025
+
+# Load NOAA TOKEN (stored securely in ~/.Renviron)
+
+noaa_token <- Sys.getenv("NOAA_TOKEN")
+
+if (noaa_token == "") {
+  stop("NOAA_TOKEN not found — please add it to your .Renviron file.")
+}
+
+
+# Build Base NOAA Request Template
+noaa_base <- "https://www.ncei.noaa.gov/cdo-web/api/v2/data"
+
+noaa_template <- request(noaa_base) |>
+  req_headers(
+    token  = noaa_token,
+    Accept = "application/json"
+  ) |>
+  req_url_query(
+    datasetid       = "GHCND",
+    stationid       = "GHCND:USW00094728",   # Central Park
+    datatypeid      = "TMAX,TMIN,PRCP",      # Needed variables
+    units           = "standard",
+    includemetadata = "true",
+    limit           = 1000                   # NOAA max per page
+  )
+
+
+# Function: Download a single year of data (fully paginated)
+
+download_noaa_year <- function(year) {
+
+  message("Downloading data for ", year, " ...")
+
+  start_date <- paste0(year, "-01-01")
+  end_date   <- paste0(year, "-12-31")
+
+  # 3A. Request metadata for row count
+  meta <- noaa_template |>
+    req_url_query(
+      startdate = start_date,
+      enddate   = end_date,
+      limit     = 1
+    ) |>
+    req_perform() |>
+    resp_body_json(simplifyVector = TRUE)
+
+  total_count <- meta$metadata$resultset$count
+  message("  Records found: ", total_count)
+
+  if (is.null(total_count) || total_count == 0) {
+    message("  No data for ", year)
+    return(NULL)
+  }
+
+  # 3B. Create pagination offsets 
+  offsets <- seq(0, total_count, by = 1000)
+
+  # 3C. Download each batch 
+  batches <- map(offsets, function(off) {
+
+    message("    Retrieving batch (offset = ", off, ")")
+
+    batch <- noaa_template |>
+      req_url_query(
+        startdate = start_date,
+        enddate   = end_date,
+        offset    = off
+      ) |>
+      req_perform() |>
+      resp_body_json(simplifyVector = TRUE)
+
+    # Convert results to tibble if data exists
+    if (!is.null(batch$results) && length(batch$results) > 0) {
+      as_tibble(batch$results)
+    } else {
+      NULL
+    }
+  })
+
+  #  Bind all batches into one tibble 
+  bind_rows(batches)
+}
+
+# Download Weather for All Years: 2018–2025
+
+years <- 2018:2025
+
+weather_list <- map(years, download_noaa_year)
+
+weather_raw <- bind_rows(weather_list)
+
+message("Total NOAA records downloaded: ", nrow(weather_raw))
+
+glimpse(weather_raw)
+```
+
+Weather data already downloaded:
+
+```{r load_noaa_from_csv,  echo=TRUE, results='hide'}
+weather_raw <- read_csv("data/individual_report/noaa_2018_2025.csv", show_col_types = FALSE)
+glimpse(weather_raw)
+```
+
+# Data Cleaning
+
+The goal of cleaning is to produce a daily merged dataset with one row per date capturing both weather conditions and complaint totals.
+
+## Daily 311 Complaint Counts
+
+The 311 data are aggregated to daily frequency by counting the number of rodent complaints per calendar day.
+
+```{r, echo=TRUE, results='hide'}
+# Convert timestamp to Date and aggregate calls to daily frequency.
+# This ensures alignment with NOAA daily weather records.
+rodent_daily <- rodent_raw |>
+  mutate(date = as_date(created_date)) |>
+  filter(!is.na(date)) |>
+  group_by(date) |>
+  summarise(calls = n(), .groups = "drop")
+
+head(rodent_daily)
+```
+
+## Daily Weather Metrics
+
+NOAA data are reshaped from long to wide format and converted from tenths-of-unit to actual values
+
+```{r, echo=TRUE, results='hide'}
+weather_daily <- weather_raw |>
+  mutate(
+    date  = as_date(date),
+    value = suppressWarnings(as.numeric(value))
+  ) |>
+  filter(datatype %in% c("TMAX", "TMIN", "PRCP")) |>
+
+  group_by(date, datatype) |>
+  summarise(
+    value = value[!is.na(value)][1], 
+    .groups = "drop"
+  ) |>
+
+  pivot_wider(
+    names_from  = datatype,
+    values_from = value
+  ) |>
+
+  mutate(
+    # TMAX and TMIN are in °F 
+    TMAX = TMAX,
+    TMIN = TMIN,
+
+    # PRCP is in tenths 
+    PRCP = PRCP / 10,
+
+    # Mean daily temperature 
+    TEMP = (TMAX + TMIN) / 2
+  ) |>
+
+  arrange(date)
+
+```
+
+# Merging Weather and 311 Data
+
+Once both datasets share a daily index, they are merged into a single analytical table. A right join is used to retain the complete weather calendar; days with no complaints appear as NA in the calls column and represent genuine zero-reporting days.
+
+```{r, echo=TRUE, results='hide'}
+# Merge daily rodent calls with daily weather.
+# right_join() keeps all weather dates (complete calendar),
+# ensuring that NA rodent-call days still appear (useful for analysis).
+df <- rodent_daily |>
+  right_join(weather_daily, by = "date") |>
+  arrange(date)
+
+glimpse(df)
+
+```
+
+```{r, echo=TRUE, results='hide', include = FALSE}
+monthly_temp <- weather_daily |>
+mutate(
+year  = year(date),
+month = month(date)
+) |>
+group_by(year, month) |>
+summarise(
+avg_temp = mean(TEMP, na.rm = TRUE),
+.groups  = "drop"
+)
+
+monthly_prcp <- weather_daily |>
+mutate(
+year  = year(date),
+month = month(date)
+) |>
+group_by(year, month) |>
+summarise(
+total_prcp = sum(PRCP, na.rm = TRUE),
+.groups    = "drop"
+)
+
+monthly_rainy <- weather_daily |>
+mutate(
+year  = year(date),
+month = month(date),
+rainy = PRCP > 1
+) |>
+group_by(year, month) |>
+summarise(
+rainy_days = sum(rainy),
+.groups    = "drop"
+)
+
+weather_monthly <- monthly_temp |>
+left_join(monthly_prcp,  by = c("year", "month")) |>
+left_join(monthly_rainy, by = c("year", "month"))
+
+head(weather_monthly)
+
+```
+
+# Weather Favorability Score (WFS)
+
+A combined metric is constructed to summarize how “rat-friendly” the weather is on each day. Temperature and precipitation operate in opposite directions: warmth generally promotes rat activity, while heavy rain suppresses both rat movement and human time outdoors.
+
+To place these variables on a common scale, daily temperature and precipitation are standardized:
+
+```{r, echo=TRUE, results='hide'}
+df <- df |>
+  mutate(
+    TEMP_z = scale(TEMP)[,1],
+    PRCP_z = scale(PRCP)[,1],
+    WFS = TEMP_z - PRCP_z
+  )
+```
+
+The Weather Favorability Score (WFS) is then defined as:
+
+> | **WFS =TEMP z ​−PRCP z​.**
+
+Higher values indicate days that are warm and dry relative to the overall sample, while lower values correspond to colder or wetter conditions.
+
+::: {.callout-note collapse="false" appearance="simple"}
+## How to Interpret WFS
+
+A one-unit increase in WFS corresponds to a simultaneous move toward warmer and drier conditions relative to the sample average. Negative values represent unusually cold and/or wet days; positive values represent unusually warm and dry days.
+:::
+
+# Exploratory Patterns in Weather and Reporting
+
+Understanding how weather and complaints behave over time provides important context for interpreting statistical models. The patterns below show that weather-driven behavioral changes appear visibly in the raw data before any modeling is applied.
+
+## Temperature Over Time
+
+NYC temperature follows a highly regular seasonal cycle:
+
+-   Peaks each **July–August**
+
+-   Deep troughs in **January–February**
+
+```{r,  echo=FALSE}
+df |>
+  mutate(month = lubridate::month(date, label = TRUE)) |>
+  group_by(month) |>
+  summarise(TEMP = median(TEMP), .groups = "drop") |>
+  ggplot(aes(month, TEMP, group = 1)) +
+  
+  geom_line(
+    color = "#B22222",
+    linewidth = 1.6,
+    lineend = "round"
+  ) +
+  
+  geom_point(
+    color = "#B22222",
+    size = 3.5
+  ) +
+  
+  labs(
+    title = "Seasonal Temperature Pattern in NYC",
+    subtitle = "Monthly median daily temperature (2018–2025)",
+    y = "Temperature (°F)",
+    x = ""
+  ) +
+  
+  scale_y_continuous(
+    limits = c(30, 82),
+    breaks = seq(30, 80, 10)
+  ) +
+  
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(face = "bold", size = 22),
+    plot.subtitle = element_text(size = 14, color = "gray40"),
+    axis.text = element_text(size = 13),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+
+
+```
+
+**Interpretation :** Temperature displays a consistent annual cycle, with warm peaks in midsummer and deep troughs in winter. This seasonal rhythm sets expectations for complaint patterns, since both rat activity and human outdoor behavior are strongly temperature-dependent. Rising temperatures in spring reliably precede increases in complaints.
+
+## Long-Term: Seasonal Complaint Cycles
+
+```{r,  echo=FALSE}
+df |>
+  mutate(month = month(date, label = TRUE)) |>
+  group_by(month) |>
+  summarise(avg_calls = mean(calls, na.rm = TRUE)) |>
+  ggplot(aes(month, avg_calls)) +
+  geom_col(fill = "#E69F00", width = 0.7) +
+  geom_text(aes(label = round(avg_calls, 1)), vjust = -0.5, size = 4) +
+  labs(
+    title = "Long-Term Pattern: Seasonal Complaint Cycles",
+    subtitle = "Monthly averages follow NYC's annual temperature rhythm",
+    x = "Month",
+    y = "Average Daily Complaints"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title    = element_text(face = "bold", size = 18),
+    plot.subtitle = element_text(size = 13, color = "gray40"),
+    axis.text     = element_text(size = 11),
+    axis.title    = element_text(size = 12)
+  )
+```
+
+**Interpretation:** 311 complaints rise and fall almost in lockstep with the temperature cycle. This pattern reflects long-term seasonal forces, warm months bring more outdoor activity and more rat visibility, while cold months suppress both. Because this variation occurs every year, it suggests that large portions of complaint volume are shaped by the climate calendar rather than changes in rat populations.
+
+## Daily Variability: Immediate Weather Effects
+
+The Weather Favorability Score (WFS) ranges from `r round(min(df$WFS, na.rm=TRUE),1)` to `r round(max(df$WFS, na.rm=TRUE),1)`.
+
+While WFS shows seasonal waves (similar to temperature), its **day-to-day variation** reveals immediate effects:
+
+```{r weather_bar_plot, echo=FALSE}
+
+ df |>
+  mutate(
+    weather_type = case_when(
+      WFS < -1 ~ "Cold / Wet",
+      WFS >= -1 & WFS < 1 ~ "Typical",
+      WFS >= 1 ~ "Warm / Dry"
+    ),
+    weather_type = factor(weather_type, levels = c("Cold / Wet", "Typical", "Warm / Dry"))
+  ) |>
+  group_by(weather_type) |>
+  summarise(avg_complaints = mean(calls, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(weather_type, avg_complaints, fill = weather_type)) +
+  geom_col(width = 0.7) +
+  geom_text(aes(label = round(avg_complaints, 1)), vjust = -0.5, size = 5) +
+  scale_fill_manual(values = c(
+    "Cold / Wet" = "#67A9CF",
+    "Typical"    = "#F0E442",
+    "Warm / Dry" = "#FF9F1C"
+  )) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Same-Day Weather Effects on Rodent Complaints",
+    subtitle = "Warm, dry days generate substantially more 311 reports",
+    x = NULL,
+    y = "Average Daily Complaints"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title    = element_text(face = "bold"),
+    plot.subtitle = element_text(color = "gray40"),
+    legend.position = "none"
+  )
+
+```
+
+**Interpretation:** Even within the same season, daily weather matters. A rainy June day brings fewer complaints than a sunny June day, despite identical seasonal conditions. This demonstrates an immediate behavioral response: people report more rats on warm, dry days and fewer on cold, wet days, regardless of the month. The effect is not seasonal it is instantaneous.
+
+## Interactive Weather & Rodent Explorer Dashboard
+
+To complement the static plots in this report, an interactive dashboard is provided. The dashboard summarizes the weather–complaint relationship through two linked views:
+
+-   **Time-Series Explorer** : displays daily values for temperature (°F), precipitation (mm), and complaint counts across any selected year or the full 2018–2025 period.
+
+-   **Scatter Explorer** : shows how complaint volume varies with temperature or precipitation, with an optional regression fit for quick comparison across different time windows.
+
+The dashboard is deployed on **shinyapps.io** and can be accessed below.
+
+::: {style="width:100%; margin: 0 auto;"}
+<iframe src="https://shreyakarki.shinyapps.io/weather-rodent-explorer/" style="width:100%; height:900px; border:none;">
+
+</iframe>
+:::
+
+# Association Between Weather and Reporting
+
+This section moves from description to association to answer:
+
+| **Are rodent complaints systematically higher on warm, dry days?**
+
+## Correlation and Linear Model
+
+```{r cor_test, echo=TRUE}
+df_complete <- df |> drop_na(TEMP, PRCP, calls)
+model <- lm(calls ~ TEMP + PRCP, data = df_complete)
+corr_wfs <- cor(df$calls, df$WFS, use = "complete.obs")
+
+```
+
+The correlation between WFS and daily complaints is `r round(corr_wfs, 3)`, which indicates a **moderate positive association**. Warm, dry days tend to produce noticeably more 311 reports.
+
+The linear model reinforces this pattern:
+
+-   **Temperature effect:** `r round(coef(model)["TEMP"], 2)` more complaints per +1°F
+
+-   **Precipitation effect:** `r round(coef(model)["PRCP"], 2)` fewer complaints per unit of rain
+
+-   **Variance explained:** about **`r round(100 * summary(model)$r.squared, 1)`%**
+
+**Interpretation:** Even after controlling for rain, *warmer days consistently produce more 311 reports*. This is not because rats only exist in summer, but because **people are outdoors more**, visibility is higher, and rats are more active. Rain strongly suppresses complaints because people stay inside and rats stay hidden.
+
+These results indicate that **311 complaint volume is partly a measure of weather-driven human activity** , not only rat activity.
+
+::: {.callout-note collapse="false" appearance="simple"}
+## Model Purpose
+
+The linear model is not intended as a perfect forecasting tool. Its main role here is explanatory: to quantify how strongly complaints respond to temperature and precipitation, after controlling for their joint effects.
+:::
+
+# Statistical Inference
+
+Exploratory plots and regression summaries suggest that weather and complaint volume move together, but random variation can also generate apparent patterns. Two resampling strategies are used to quantify how unusual the observed relationships are under simple null assumptions.
+
+## Permutation Test: Is the WFS–Complaint Correlation Real?
+
+The permutation test breaks the link between weather and complaints. It shuffles complaint counts randomly across days, recomputes the correlation, and repeats this thousands of times.
+
+This simulates a world where:
+
+> **Weather has no effect on reporting , complaints happen randomly relative to temperature and rainfall.**
+
+```{r perm_test, echo=TRUE, results = 'hide'}
+set.seed(123)
+
+obs_cor <- cor(df$calls, df$WFS, use = "complete.obs")
+
+perm_results <- replicate(
+2000,
+{
+shuffled <- sample(df$calls)
+cor(shuffled, df$WFS, use = "complete.obs")
+}
+)
+
+perm_p_value <- mean(abs(perm_results) >= abs(obs_cor))
+perm_p_value
+
+```
+
+The observed correlation is `r round(obs_cor, 3)`, and the permutation p-value is `r perm_p_value`. Out of 2,000 reshuffled datasets, **almost none produced a correlation anywhere near the real one**.
+
+**Interpretation:** It is *extremely unlikely* that the weather–complaint relationship is random. This is strong evidence that **weather truly influences complaint behavior**, and the pattern we see is not just coincidence.
+
+## Bootstrap Confidence Interval for the Temperature Effect
+
+Bootstrapping repeatedly re-fits the model on resampled versions of the data. This measures how *stable* the estimated temperature effect is.
+
+```{r bootstrap_temp, echo=TRUE, results = 'hide'}
+set.seed(123)
+
+boot_temp <- replicate(
+2000,
+{
+boot_df <- df_complete[sample(nrow(df_complete), replace = TRUE), ]
+coef(lm(calls ~ TEMP + PRCP, data = boot_df))[2]
+}
+)
+
+quantile(boot_temp, c(0.025, 0.975))
+
+```
+
+The 95% bootstrap CI for the temperature effect is:
+
+**\[`r round(quantile(boot_temp,0.025),2)` , `r round(quantile(boot_temp,0.975),2)`\]**
+
+This narrow interval, which lies far away from zero, indicates that the positive temperature effect is both **stable** and **statistically reliable**.
+
+Every re-sampled dataset tells the same story:
+
+> **Warmer days produce more 311 rodent complaints — reliably, consistently, and strongly.**
+
+## Regression Diagnostics
+
+Regression diagnostics confirm whether model assumptions are acceptable.
+
+```{r diag_plots, echo=FALSE}
+par(mfrow = c(2, 2))
+plot(model)
+par(mfrow = c(1, 1))
+
+```
+
+Residual plots suggest:
+
+-   Mild heteroskedasticity is expected because complaints are count data.
+-   Slight right-tail deviations occur during unusually high-complaint days (summer spikes).
+-   No high-leverage outliers distort the fit.
+
+**Interpretation**:There is nothing unusual or concerning in the residuals. The linear model behaves well, meaning:
+
+> The estimated weather effects are trustworthy and not driven by artifacts in the data.
+
+::: callout-warning
+## Limitations and Possible Objections
+
+Weather is not the only factor influencing outdoor visibility or complaint behavior.
+
+For example, holidays, snowstorms, school calendars, or COVID-era disruptions may also alter human mobility in ways correlated with temperature.
+
+Despite these concerns, the strong and stable temperature and precipitation effects, confirmed through bootstrapping, permutation testing, and diagnostics suggest that the estimated weather reporting relationship reflects a **true structural mechanism**, not random fluctuation or confounding.
+
+Weather does not explain *everything*, but it explains **a surprisingly large share** of day-to-day complaint variation. This means 311 data, without weather normalization, can easily exaggerate or hide rat problems simply because of human behavior.
+:::
+
+# Interpretation and Connection to the Overarching Question
+
+The statistical results all point to a consistent conclusion: **weather exerts a meaningful and measurable influence on how often New Yorkers report seeing rats**. Warmer temperatures are associated with higher complaint counts, while precipitation reliably suppresses reporting. This pattern appears in every part of the analysis, the exploratory plots, the correlation, the regression model, the permutation test, and the bootstrap intervals which together show that the relationship is not accidental or driven by a handful of extreme days.
+
+These findings clarify what 311 complaints actually represent. Because people are outside more often during warm, dry conditions, they have more opportunities to notice and report rodents. As a result, complaint volume reflects a combination of **true rat activity** and **human visibility and reporting behavior**. The statistical models indicate that nearly one-third of daily variation in complaints can be explained simply by temperature and rain, which is a large effect in urban behavioral data. This means that raw complaint counts are not neutral indicators of rat populations they are partially shaped by environmental conditions that affect human behavior independently of rats themselves. Understanding this helps link this component directly to the group’s overarching question, which requires distinguishing ecological rat risk from reporting bias.
+
+# Research Implications
+
+The results have direct implications for how New York City interprets and responds to rodent complaint data.
+
+1.  311 complaints cannot be treated as a clean measure of rat abundance, because weather conditions can inflate or suppress reporting even when rat populations are unchanged. A warm, dry week may appear as a “rat surge,” while a rainy spell may look like a successful mitigation period, even though neither necessarily reflects underlying ecological shifts.
+
+2.  Weather adjustment becomes essential when comparing neighborhoods. Areas where residents spend more time outdoors or where weather patterns create more opportunities for observation will naturally generate more complaints, even if rat conditions are identical. Without accounting for this, some neighborhoods may appear disproportionately “rattier” simply because complaints respond more strongly to favorable visibility conditions.
+
+3.  The Weather Favorability Score (WFS) developed here offers a simple and scalable way to incorporate weather into downstream analyses. Because it standardizes temperature and precipitation on a common scale, WFS can be folded into the group’s Objective Rat Condition Index (ORCI) and used to help separate **environmental drivers of rat activity** from **behavioral drivers of reporting**. This component therefore provides the methodological starting point for any city-level attempt to quantify reporting bias in rodent complaints.
+
+# Conclusion
+
+This analysis provides clear evidence that temperature and precipitation shape 311 rodent complaint patterns in systematic and statistically robust ways. Warmer days consistently produce higher complaint counts, while rainfall reliably depresses reporting. These effects hold across multiple statistical methods, including permutation testing and bootstrapped confidence intervals, demonstrating that the weather–complaint relationship is both real and stable.
+
+Because weather explains a sizable share of day-to-day complaint variation, it must be treated as a major confounder when interpreting 311 data. The Weather Favorability Score (WFS) offers a practical tool for quantifying these patterns and adjusting complaint data accordingly. By establishing how strongly weather influences reporting behavior, this component provides a crucial foundation for distinguishing **true rat risk** from **reporting-driven apparent risk**, and supports the group’s broader effort to build a fair and accurate model of rodent conditions across New York City.
+
+------------------------------------------------------------------------
+
+::: {style="text-align:center; font-size:0.85em; color:gray; margin-top:20px;"}
+This work ©2025 was initially prepared as a Course-Project for <strong>STA 9750</strong> at <strong>Baruch College</strong>.<br>More details about the course can be found at the <a href="https://michael-weylandt.com/STA9750/">course site</a>, and full assignment instructions are available under <a href="https://michael-weylandt.com/STA9750/project.html">Course Project</a>.
+:::
