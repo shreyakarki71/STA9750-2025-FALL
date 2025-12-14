@@ -540,9 +540,8 @@ This time-series view illustrates how revision magnitudes have evolved, making i
 ggplot(ces_full, aes(date, abs_revision)) +
   geom_line(color = "firebrick") +
   labs(title = "Absolute CES Revisions Over Time",
-       y = "Abs Revision", x = "")
-+
-theme_minimal
+       y = "Abs Revision", x = "")+
+theme_minimal()
 ```
 
 Absolute revisions remain relatively modest through most of the historical series, **generally staying below 150k**. The one major exception occurs in **2020–2021,** where revisions spike dramatically exceedin**g 600k jobs at their largest point**. This pattern aligns with the extraordinary uncertainty of the early pandemic labor market, when rapid monthly swings made preliminary estimates harder to capture.

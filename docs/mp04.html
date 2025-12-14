@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Shreya Karki">
-<meta name="dcterms.date" content="2025-11-24">
+<meta name="dcterms.date" content="2025-12-13">
 
 <title>Just the Fact(-Check)s, Ma’am! – STA 9750</title>
 <style>
@@ -156,6 +156,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./individual_report.html"> 
+<span class="menu-text">Course Project</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -239,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 24, 2025</p>
+      <p class="date">December 13, 2025</p>
     </div>
   </div>
   
@@ -719,7 +723,8 @@ The smaller modern revisions imply that early estimates have become <em>more acc
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ces_full, <span class="fu">aes</span>(date, abs_revision)) <span class="sc">+</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"firebrick"</span>) <span class="sc">+</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Absolute CES Revisions Over Time"</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Abs Revision"</span>, <span class="at">x =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Abs Revision"</span>, <span class="at">x =</span> <span class="st">""</span>)<span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -992,8 +997,8 @@ The smaller modern revisions imply that early estimates have become <em>more acc
 <span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-3a590503da7a84cc1624" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-3a590503da7a84cc1624">{"x":{"diagram":"\ndigraph flowchart {\n  \n  graph [layout = dot, rankdir = TB]\n\n  node [\n    shape = box,\n    style = filled,\n    fillcolor = \"#EAF2F8\",    // soft light blue\n    color = \"#2C3E50\",        // deep navy (site header color)\n    fontcolor = \"#2C3E50\",\n    fontsize = 11\n  ]\n\n  B [label = \"State the claim to test\\n(e.g., mean revision = 0)\"]\n  C [label = \"Assume the null hypothesis\\n(the claim is true)\"]\n  D [label = \"Generate simulated datasets:\\nBootstrap or Permutation\"]\n  E [label = \"Recalculate the statistic\\n(mean, median, proportion)\"]\n  F [label = \"Form the simulated distribution\"]\n  G [label = \"Compare observed statistic\\nto simulation\"]\n  H [label = \"Compute p-value\\n(share of results as extreme)\"]\n  I [label = \"Decision about the claim\"]\n\n  edge [color = \"#2980B9\", penwidth = 1.2]\n\n  B -> C -> D -> E -> F -> G -> H -> I\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-7c0be33d567bad7003c1" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7c0be33d567bad7003c1">{"x":{"diagram":"\ndigraph flowchart {\n  \n  graph [layout = dot, rankdir = TB]\n\n  node [\n    shape = box,\n    style = filled,\n    fillcolor = \"#EAF2F8\",    // soft light blue\n    color = \"#2C3E50\",        // deep navy (site header color)\n    fontcolor = \"#2C3E50\",\n    fontsize = 11\n  ]\n\n  B [label = \"State the claim to test\\n(e.g., mean revision = 0)\"]\n  C [label = \"Assume the null hypothesis\\n(the claim is true)\"]\n  D [label = \"Generate simulated datasets:\\nBootstrap or Permutation\"]\n  E [label = \"Recalculate the statistic\\n(mean, median, proportion)\"]\n  F [label = \"Form the simulated distribution\"]\n  G [label = \"Compare observed statistic\\nto simulation\"]\n  H [label = \"Compute p-value\\n(share of results as extreme)\"]\n  I [label = \"Decision about the claim\"]\n\n  edge [color = \"#2980B9\", penwidth = 1.2]\n\n  B -> C -> D -> E -> F -> G -> H -> I\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>

@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.22">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shreya Karki">
+<meta name="dcterms.date" content="2025-12-13">
+
+<title>Weather, Humans, and Rats: How Temperature and Rain Shape 311 Rodent Reporting in NYC – STA 9750</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-cd7454b418030687c631a6a7286fbe16.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5311e8573f1ca5d29999c4191e502ac3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STA 9750</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-mini-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Mini-Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-mini-projects">    
+        <li>
+    <a class="dropdown-item" href="./mp01.html">
+ <span class="dropdown-text">MP01</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./mp02.html">
+ <span class="dropdown-text">MP02</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./mp03.html">
+ <span class="dropdown-text">MP03</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./mp04.html">
+ <span class="dropdown-text">MP04</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./individual_report.html" aria-current="page"> 
+<span class="menu-text">Course Project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition"><span class="header-section-number">2</span> Data Acquisition</a>
+  <ul class="collapse">
+  <li><a href="#nyc-311-rodent-complaint-data-socrata-api" id="toc-nyc-311-rodent-complaint-data-socrata-api" class="nav-link" data-scroll-target="#nyc-311-rodent-complaint-data-socrata-api"><span class="header-section-number">2.1</span> NYC 311 Rodent Complaint Data (Socrata API)</a></li>
+  <li><a href="#noaa-daily-weather-data-cdo-api" id="toc-noaa-daily-weather-data-cdo-api" class="nav-link" data-scroll-target="#noaa-daily-weather-data-cdo-api"><span class="header-section-number">2.2</span> NOAA Daily Weather Data (CDO API)</a></li>
+  </ul></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning"><span class="header-section-number">3</span> Data Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#daily-311-complaint-counts" id="toc-daily-311-complaint-counts" class="nav-link" data-scroll-target="#daily-311-complaint-counts"><span class="header-section-number">3.1</span> Daily 311 Complaint Counts</a></li>
+  <li><a href="#daily-weather-metrics" id="toc-daily-weather-metrics" class="nav-link" data-scroll-target="#daily-weather-metrics"><span class="header-section-number">3.2</span> Daily Weather Metrics</a></li>
+  </ul></li>
+  <li><a href="#merging-weather-and-311-data" id="toc-merging-weather-and-311-data" class="nav-link" data-scroll-target="#merging-weather-and-311-data"><span class="header-section-number">4</span> Merging Weather and 311 Data</a></li>
+  <li><a href="#weather-favorability-score-wfs" id="toc-weather-favorability-score-wfs" class="nav-link" data-scroll-target="#weather-favorability-score-wfs"><span class="header-section-number">5</span> Weather Favorability Score (WFS)</a></li>
+  <li><a href="#exploratory-patterns-in-weather-and-reporting" id="toc-exploratory-patterns-in-weather-and-reporting" class="nav-link" data-scroll-target="#exploratory-patterns-in-weather-and-reporting"><span class="header-section-number">6</span> Exploratory Patterns in Weather and Reporting</a>
+  <ul class="collapse">
+  <li><a href="#temperature-over-time" id="toc-temperature-over-time" class="nav-link" data-scroll-target="#temperature-over-time"><span class="header-section-number">6.1</span> Temperature Over Time</a></li>
+  <li><a href="#long-term-seasonal-complaint-cycles" id="toc-long-term-seasonal-complaint-cycles" class="nav-link" data-scroll-target="#long-term-seasonal-complaint-cycles"><span class="header-section-number">6.2</span> Long-Term: Seasonal Complaint Cycles</a></li>
+  <li><a href="#daily-variability-immediate-weather-effects" id="toc-daily-variability-immediate-weather-effects" class="nav-link" data-scroll-target="#daily-variability-immediate-weather-effects"><span class="header-section-number">6.3</span> Daily Variability: Immediate Weather Effects</a></li>
+  <li><a href="#interactive-weather-rodent-explorer-dashboard" id="toc-interactive-weather-rodent-explorer-dashboard" class="nav-link" data-scroll-target="#interactive-weather-rodent-explorer-dashboard"><span class="header-section-number">6.4</span> Interactive Weather &amp; Rodent Explorer Dashboard</a></li>
+  </ul></li>
+  <li><a href="#association-between-weather-and-reporting" id="toc-association-between-weather-and-reporting" class="nav-link" data-scroll-target="#association-between-weather-and-reporting"><span class="header-section-number">7</span> Association Between Weather and Reporting</a>
+  <ul class="collapse">
+  <li><a href="#correlation-and-linear-model" id="toc-correlation-and-linear-model" class="nav-link" data-scroll-target="#correlation-and-linear-model"><span class="header-section-number">7.1</span> Correlation and Linear Model</a></li>
+  </ul></li>
+  <li><a href="#statistical-inference" id="toc-statistical-inference" class="nav-link" data-scroll-target="#statistical-inference"><span class="header-section-number">8</span> Statistical Inference</a>
+  <ul class="collapse">
+  <li><a href="#permutation-test-is-the-wfscomplaint-correlation-real" id="toc-permutation-test-is-the-wfscomplaint-correlation-real" class="nav-link" data-scroll-target="#permutation-test-is-the-wfscomplaint-correlation-real"><span class="header-section-number">8.1</span> Permutation Test: Is the WFS–Complaint Correlation Real?</a></li>
+  <li><a href="#bootstrap-confidence-interval-for-the-temperature-effect" id="toc-bootstrap-confidence-interval-for-the-temperature-effect" class="nav-link" data-scroll-target="#bootstrap-confidence-interval-for-the-temperature-effect"><span class="header-section-number">8.2</span> Bootstrap Confidence Interval for the Temperature Effect</a></li>
+  <li><a href="#regression-diagnostics" id="toc-regression-diagnostics" class="nav-link" data-scroll-target="#regression-diagnostics"><span class="header-section-number">8.3</span> Regression Diagnostics</a></li>
+  </ul></li>
+  <li><a href="#interpretation-and-connection-to-the-overarching-question" id="toc-interpretation-and-connection-to-the-overarching-question" class="nav-link" data-scroll-target="#interpretation-and-connection-to-the-overarching-question"><span class="header-section-number">9</span> Interpretation and Connection to the Overarching Question</a></li>
+  <li><a href="#research-implications" id="toc-research-implications" class="nav-link" data-scroll-target="#research-implications"><span class="header-section-number">10</span> Research Implications</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">11</span> Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Weather, Humans, and Rats: How Temperature and Rain Shape 311 Rodent Reporting in NYC</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Shreya Karki </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 13, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>New York City’s 311 system receives tens of thousands of rodent-related complaints each year. These reports are widely used as research inputs, media indicators, and policy metrics to infer where rats are “most active.” Yet 311 data measure more than just rats: they also measure <strong>human behavior</strong>, including when people are outdoors, how comfortable they feel, and how motivated they are to report what they see.</p>
+<p>Weather plays a central role in both processes. Warm and dry conditions increase outdoor activity and visibility, while cold or rainy weather keeps people inside. Likewise, rat biology is strongly temperature-dependent: rats forage more, travel more, and interact with human environments more frequently in warm conditions.</p>
+<blockquote class="blockquote">
+<p><strong>How do temperature and precipitation influence the reporting of rodent sightings in NYC?</strong></p>
+</blockquote>
+<p>Understanding this distinction is essential for interpreting complaint patterns accurately. If weather is a major driver of reporting, then spikes in complaints may not indicate a “rat surge,” but instead simply improved conditions for humans to observe and report rats. The goal of this analysis is to quantify that relationship and evaluate its strength.</p>
+<p><strong>Role in Group Project:</strong><br>
+</p>
+<p>This analysis corresponds to Sub-Question 1 (SQ1): <em>Weather Favorability</em>, part of the Objective Rat Conditions framework. Responsibilities for this SQ included acquiring NOAA weather data, processing and standardizing temperature and precipitation metrics, constructing the Weather Favorability Score (WFS), and evaluating how weather systematically shapes 311 reporting behavior.</p>
+</section>
+<section id="data-acquisition" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Data Acquisition</h1>
+<p>This project uses two independent datasets:</p>
+<ul>
+<li><strong>NYC 311 Rodent Complaints</strong> — from the NYC SODA API; and</li>
+<li><strong>NOAA Daily Weather Data</strong> — from the CDO API (GHCND, Central Park Station).</li>
+</ul>
+<p>Both are retrieved using <code>httr2</code>, which ensures transparency and reproducibility. To avoid long render times, raw API pulls were executed once and saved locally; the code below shows the full workflow used.</p>
+<section id="nyc-311-rodent-complaint-data-socrata-api" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="nyc-311-rodent-complaint-data-socrata-api"><span class="header-section-number">2.1</span> NYC 311 Rodent Complaint Data (Socrata API)</h2>
+<p>The Socrata API provides event-level complaint data with timestamps and locations. Because large requests require pagination, a custom function manages offset-based downloads across multiple pages.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implements pagination for datasets exceeding 50,000 records</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>download_311 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">start_date =</span> <span class="st">"2018-01-01T00:00:00.000"</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  rodent_url <span class="ot">&lt;-</span> <span class="st">"https://data.cityofnewyork.us/resource/cvf2-zn8s.csv"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Base request template with essential parameters</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  base_req <span class="ot">&lt;-</span> <span class="fu">request</span>(rodent_url) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_url_query</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"$select"</span> <span class="ot">=</span> <span class="st">"created_date, borough, latitude, longitude"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"$where"</span>  <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"created_date &gt;= '"</span>, start_date, <span class="st">"'"</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"$order"</span>  <span class="ot">=</span> <span class="st">"created_date"</span>, <span class="co"># Required for stable pagination</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"$limit"</span>  <span class="ot">=</span> <span class="st">"50000"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_retry</span>(<span class="at">max_tries =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_error</span>(<span class="at">is_error =</span> <span class="sc">~</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  offset <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  page <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  pages <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a> <span class="co"># Pagination loop: continue until empty response</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">repeat</span> {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Page "</span>, page, <span class="st">" (offset = "</span>, offset, <span class="st">")"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    batch <span class="ot">&lt;-</span> base_req <span class="sc">|&gt;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">req_url_query</span>(<span class="st">"$offset"</span> <span class="ot">=</span> offset) <span class="sc">|&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">read_csv</span>(<span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">nrow</span>(batch) <span class="sc">==</span> <span class="dv">0</span>) <span class="cf">break</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    pages[[page]] <span class="ot">&lt;-</span> batch</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    offset <span class="ot">&lt;-</span> offset <span class="sc">+</span> <span class="dv">50000</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    page <span class="ot">&lt;-</span> page <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a> <span class="co"># Combine all pages into single data frame</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(pages) </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The full 2018–2025 dataset was previously downloaded and saved locally.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rodent_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/individual_report/rodent_2018_2025.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(rodent_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="noaa-daily-weather-data-cdo-api" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="noaa-daily-weather-data-cdo-api"><span class="header-section-number">2.2</span> NOAA Daily Weather Data (CDO API)</h2>
+<p>Weather data comes from the <strong>Central Park GHCND station (USW00094728)</strong>, one of the most complete and stable weather records in the country. The CDO API limits requests to 1,000 rows, so data are retrieved year-by-year with automated pagination.</p>
+<p><strong>Load Token</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOAA API requires a personal token. Storing it in .Renviron</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># improves reproducibility, prevents accidental GitHub leaks, and</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># follows best practices taught in STA 9750.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>noaa_token <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"NOAA_TOKEN"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (noaa_token <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"NOAA_TOKEN not found — please add it to your .Renviron file."</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Base NOAA Request Template</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Templated request stores shared parameters:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - datasetid: Daily Summaries (GHCND)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># - stationid: Central Park weather station</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># - breaking into 1-year chunks due to API limits</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Using a template prevents duplication in pagination requests</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># and ensures consistency across all API calls.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>noaa_base <span class="ot">&lt;-</span> <span class="st">"https://www.ncei.noaa.gov/cdo-web/api/v2/data"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>noaa_template <span class="ot">&lt;-</span> <span class="fu">request</span>(noaa_base) <span class="sc">|&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_headers</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">token =</span> noaa_token,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Accept =</span> <span class="st">"application/json"</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">datasetid       =</span> <span class="st">"GHCND"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">stationid       =</span> <span class="st">"GHCND:USW00094728"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">units           =</span> <span class="st">"standard"</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">datatypeid      =</span> <span class="st">"TMAX,TMIN,PRCP"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">includemetadata =</span> <span class="st">"true"</span>,        </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">limit           =</span> <span class="dv">1000</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Year-by-Year Download Function</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOAA Daily Weather Data (GHCND — Central Park Station)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Download Years: 2018–2025</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load NOAA TOKEN (stored securely in ~/.Renviron)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>noaa_token <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"NOAA_TOKEN"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (noaa_token <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"NOAA_TOKEN not found — please add it to your .Renviron file."</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Build Base NOAA Request Template</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>noaa_base <span class="ot">&lt;-</span> <span class="st">"https://www.ncei.noaa.gov/cdo-web/api/v2/data"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>noaa_template <span class="ot">&lt;-</span> <span class="fu">request</span>(noaa_base) <span class="sc">|&gt;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_headers</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">token  =</span> noaa_token,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">Accept =</span> <span class="st">"application/json"</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">datasetid       =</span> <span class="st">"GHCND"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">stationid       =</span> <span class="st">"GHCND:USW00094728"</span>,   <span class="co"># Central Park</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">datatypeid      =</span> <span class="st">"TMAX,TMIN,PRCP"</span>,      <span class="co"># Needed variables</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">units           =</span> <span class="st">"standard"</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">includemetadata =</span> <span class="st">"true"</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">limit           =</span> <span class="dv">1000</span>                   <span class="co"># NOAA max per page</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Function: Download a single year of data (fully paginated)</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>download_noaa_year <span class="ot">&lt;-</span> <span class="cf">function</span>(year) {</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"Downloading data for "</span>, year, <span class="st">" ..."</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  start_date <span class="ot">&lt;-</span> <span class="fu">paste0</span>(year, <span class="st">"-01-01"</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  end_date   <span class="ot">&lt;-</span> <span class="fu">paste0</span>(year, <span class="st">"-12-31"</span>)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3A. Request metadata for row count</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  meta <span class="ot">&lt;-</span> noaa_template <span class="sc">|&gt;</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_url_query</span>(</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">startdate =</span> start_date,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">enddate   =</span> end_date,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">limit     =</span> <span class="dv">1</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  total_count <span class="ot">&lt;-</span> meta<span class="sc">$</span>metadata<span class="sc">$</span>resultset<span class="sc">$</span>count</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"  Records found: "</span>, total_count)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(total_count) <span class="sc">||</span> total_count <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"  No data for "</span>, year)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3B. Create pagination offsets </span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  offsets <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, total_count, <span class="at">by =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3C. Download each batch </span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>  batches <span class="ot">&lt;-</span> <span class="fu">map</span>(offsets, <span class="cf">function</span>(off) {</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"    Retrieving batch (offset = "</span>, off, <span class="st">")"</span>)</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    batch <span class="ot">&lt;-</span> noaa_template <span class="sc">|&gt;</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>      <span class="fu">req_url_query</span>(</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        <span class="at">startdate =</span> start_date,</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>        <span class="at">enddate   =</span> end_date,</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>        <span class="at">offset    =</span> off</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>      <span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>      <span class="fu">resp_body_json</span>(<span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert results to tibble if data exists</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(batch<span class="sc">$</span>results) <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(batch<span class="sc">$</span>results) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as_tibble</span>(batch<span class="sc">$</span>results)</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NULL</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  Bind all batches into one tibble </span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(batches)</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Download Weather for All Years: 2018–2025</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="dv">2018</span><span class="sc">:</span><span class="dv">2025</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>weather_list <span class="ot">&lt;-</span> <span class="fu">map</span>(years, download_noaa_year)</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>weather_raw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(weather_list)</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Total NOAA records downloaded: "</span>, <span class="fu">nrow</span>(weather_raw))</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(weather_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Weather data already downloaded:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>weather_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/individual_report/noaa_2018_2025.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(weather_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="data-cleaning" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Data Cleaning</h1>
+<p>The goal of cleaning is to produce a daily merged dataset with one row per date capturing both weather conditions and complaint totals.</p>
+<section id="daily-311-complaint-counts" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="daily-311-complaint-counts"><span class="header-section-number">3.1</span> Daily 311 Complaint Counts</h2>
+<p>The 311 data are aggregated to daily frequency by counting the number of rodent complaints per calendar day.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert timestamp to Date and aggregate calls to daily frequency.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This ensures alignment with NOAA daily weather records.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rodent_daily <span class="ot">&lt;-</span> rodent_raw <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">as_date</span>(created_date)) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">calls =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rodent_daily)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="daily-weather-metrics" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="daily-weather-metrics"><span class="header-section-number">3.2</span> Daily Weather Metrics</h2>
+<p>NOAA data are reshaped from long to wide format and converted from tenths-of-unit to actual values</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>weather_daily <span class="ot">&lt;-</span> weather_raw <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date  =</span> <span class="fu">as_date</span>(date),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(value))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datatype <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"TMAX"</span>, <span class="st">"TMIN"</span>, <span class="st">"PRCP"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date, datatype) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> value[<span class="sc">!</span><span class="fu">is.na</span>(value)][<span class="dv">1</span>], </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> datatype,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># TMAX and TMIN are in °F </span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">TMAX =</span> TMAX,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">TMIN =</span> TMIN,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PRCP is in tenths </span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">PRCP =</span> PRCP <span class="sc">/</span> <span class="dv">10</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mean daily temperature </span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">TEMP =</span> (TMAX <span class="sc">+</span> TMIN) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="merging-weather-and-311-data" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Merging Weather and 311 Data</h1>
+<p>Once both datasets share a daily index, they are merged into a single analytical table. A right join is used to retain the complete weather calendar; days with no complaints appear as NA in the calls column and represent genuine zero-reporting days.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge daily rodent calls with daily weather.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># right_join() keeps all weather dates (complete calendar),</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ensuring that NA rodent-call days still appear (useful for analysis).</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> rodent_daily <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(weather_daily, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="weather-favorability-score-wfs" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Weather Favorability Score (WFS)</h1>
+<p>A combined metric is constructed to summarize how “rat-friendly” the weather is on each day. Temperature and precipitation operate in opposite directions: warmth generally promotes rat activity, while heavy rain suppresses both rat movement and human time outdoors.</p>
+<p>To place these variables on a common scale, daily temperature and precipitation are standardized:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">TEMP_z =</span> <span class="fu">scale</span>(TEMP)[,<span class="dv">1</span>],</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">PRCP_z =</span> <span class="fu">scale</span>(PRCP)[,<span class="dv">1</span>],</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">WFS =</span> TEMP_z <span class="sc">-</span> PRCP_z</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The Weather Favorability Score (WFS) is then defined as:</p>
+<blockquote class="blockquote">
+<div class="line-block"><strong>WFS =TEMP z ​−PRCP z​.</strong></div>
+</blockquote>
+<p>Higher values indicate days that are warm and dry relative to the overall sample, while lower values correspond to colder or wetter conditions.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How to Interpret WFS
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>A one-unit increase in WFS corresponds to a simultaneous move toward warmer and drier conditions relative to the sample average. Negative values represent unusually cold and/or wet days; positive values represent unusually warm and dry days.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exploratory-patterns-in-weather-and-reporting" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Exploratory Patterns in Weather and Reporting</h1>
+<p>Understanding how weather and complaints behave over time provides important context for interpreting statistical models. The patterns below show that weather-driven behavioral changes appear visibly in the raw data before any modeling is applied.</p>
+<section id="temperature-over-time" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="temperature-over-time"><span class="header-section-number">6.1</span> Temperature Over Time</h2>
+<p>NYC temperature follows a highly regular seasonal cycle:</p>
+<ul>
+<li><p>Peaks each <strong>July–August</strong></p></li>
+<li><p>Deep troughs in <strong>January–February</strong></p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="individual_report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation :</strong> Temperature displays a consistent annual cycle, with warm peaks in midsummer and deep troughs in winter. This seasonal rhythm sets expectations for complaint patterns, since both rat activity and human outdoor behavior are strongly temperature-dependent. Rising temperatures in spring reliably precede increases in complaints.</p>
+</section>
+<section id="long-term-seasonal-complaint-cycles" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="long-term-seasonal-complaint-cycles"><span class="header-section-number">6.2</span> Long-Term: Seasonal Complaint Cycles</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="individual_report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong> 311 complaints rise and fall almost in lockstep with the temperature cycle. This pattern reflects long-term seasonal forces, warm months bring more outdoor activity and more rat visibility, while cold months suppress both. Because this variation occurs every year, it suggests that large portions of complaint volume are shaped by the climate calendar rather than changes in rat populations.</p>
+</section>
+<section id="daily-variability-immediate-weather-effects" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="daily-variability-immediate-weather-effects"><span class="header-section-number">6.3</span> Daily Variability: Immediate Weather Effects</h2>
+<p>The Weather Favorability Score (WFS) ranges from -17.3 to 2.4.</p>
+<p>While WFS shows seasonal waves (similar to temperature), its <strong>day-to-day variation</strong> reveals immediate effects:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="individual_report_files/figure-html/weather_bar_plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong> Even within the same season, daily weather matters. A rainy June day brings fewer complaints than a sunny June day, despite identical seasonal conditions. This demonstrates an immediate behavioral response: people report more rats on warm, dry days and fewer on cold, wet days, regardless of the month. The effect is not seasonal it is instantaneous.</p>
+</section>
+<section id="interactive-weather-rodent-explorer-dashboard" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="interactive-weather-rodent-explorer-dashboard"><span class="header-section-number">6.4</span> Interactive Weather &amp; Rodent Explorer Dashboard</h2>
+<p>To complement the static plots in this report, an interactive dashboard is provided. The dashboard summarizes the weather–complaint relationship through two linked views:</p>
+<ul>
+<li><p><strong>Time-Series Explorer</strong> : displays daily values for temperature (°F), precipitation (mm), and complaint counts across any selected year or the full 2018–2025 period.</p></li>
+<li><p><strong>Scatter Explorer</strong> : shows how complaint volume varies with temperature or precipitation, with an optional regression fit for quick comparison across different time windows.</p></li>
+</ul>
+<p>The dashboard is deployed on <strong>shinyapps.io</strong> and can be accessed below.</p>
+<div style="width:100%; margin: 0 auto;">
+<iframe src="https://shreyakarki.shinyapps.io/weather-rodent-explorer/" style="width:100%; height:900px; border:none;">
+</iframe>
+</div>
+</section>
+</section>
+<section id="association-between-weather-and-reporting" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Association Between Weather and Reporting</h1>
+<p>This section moves from description to association to answer:</p>
+<div class="line-block"><strong>Are rodent complaints systematically higher on warm, dry days?</strong></div>
+<section id="correlation-and-linear-model" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="correlation-and-linear-model"><span class="header-section-number">7.1</span> Correlation and Linear Model</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_complete <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">drop_na</span>(TEMP, PRCP, calls)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(calls <span class="sc">~</span> TEMP <span class="sc">+</span> PRCP, <span class="at">data =</span> df_complete)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>corr_wfs <span class="ot">&lt;-</span> <span class="fu">cor</span>(df<span class="sc">$</span>calls, df<span class="sc">$</span>WFS, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The correlation between WFS and daily complaints is 0.438, which indicates a <strong>moderate positive association</strong>. Warm, dry days tend to produce noticeably more 311 reports.</p>
+<p>The linear model reinforces this pattern:</p>
+<ul>
+<li><p><strong>Temperature effect:</strong> 1.24 more complaints per +1°F</p></li>
+<li><p><strong>Precipitation effect:</strong> -60.8 fewer complaints per unit of rain</p></li>
+<li><p><strong>Variance explained:</strong> about <strong>32.2%</strong></p></li>
+</ul>
+<p><strong>Interpretation:</strong> Even after controlling for rain, <em>warmer days consistently produce more 311 reports</em>. This is not because rats only exist in summer, but because <strong>people are outdoors more</strong>, visibility is higher, and rats are more active. Rain strongly suppresses complaints because people stay inside and rats stay hidden.</p>
+<p>These results indicate that <strong>311 complaint volume is partly a measure of weather-driven human activity</strong> , not only rat activity.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Model Purpose
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>The linear model is not intended as a perfect forecasting tool. Its main role here is explanatory: to quantify how strongly complaints respond to temperature and precipitation, after controlling for their joint effects.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="statistical-inference" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Statistical Inference</h1>
+<p>Exploratory plots and regression summaries suggest that weather and complaint volume move together, but random variation can also generate apparent patterns. Two resampling strategies are used to quantify how unusual the observed relationships are under simple null assumptions.</p>
+<section id="permutation-test-is-the-wfscomplaint-correlation-real" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="permutation-test-is-the-wfscomplaint-correlation-real"><span class="header-section-number">8.1</span> Permutation Test: Is the WFS–Complaint Correlation Real?</h2>
+<p>The permutation test breaks the link between weather and complaints. It shuffles complaint counts randomly across days, recomputes the correlation, and repeats this thousands of times.</p>
+<p>This simulates a world where:</p>
+<blockquote class="blockquote">
+<p><strong>Weather has no effect on reporting , complaints happen randomly relative to temperature and rainfall.</strong></p>
+</blockquote>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>obs_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(df<span class="sc">$</span>calls, df<span class="sc">$</span>WFS, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>perm_results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="dv">2000</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> <span class="fu">sample</span>(df<span class="sc">$</span>calls)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(shuffled, df<span class="sc">$</span>WFS, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>perm_p_value <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perm_results) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs_cor))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>perm_p_value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The observed correlation is 0.438, and the permutation p-value is 0. Out of 2,000 reshuffled datasets, <strong>almost none produced a correlation anywhere near the real one</strong>.</p>
+<p><strong>Interpretation:</strong> It is <em>extremely unlikely</em> that the weather–complaint relationship is random. This is strong evidence that <strong>weather truly influences complaint behavior</strong>, and the pattern we see is not just coincidence.</p>
+</section>
+<section id="bootstrap-confidence-interval-for-the-temperature-effect" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="bootstrap-confidence-interval-for-the-temperature-effect"><span class="header-section-number">8.2</span> Bootstrap Confidence Interval for the Temperature Effect</h2>
+<p>Bootstrapping repeatedly re-fits the model on resampled versions of the data. This measures how <em>stable</em> the estimated temperature effect is.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>boot_temp <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2000</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>boot_df <span class="ot">&lt;-</span> df_complete[<span class="fu">sample</span>(<span class="fu">nrow</span>(df_complete), <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(calls <span class="sc">~</span> TEMP <span class="sc">+</span> PRCP, <span class="at">data =</span> boot_df))[<span class="dv">2</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(boot_temp, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The 95% bootstrap CI for the temperature effect is:</p>
+<p><strong>[1.18 , 1.31]</strong></p>
+<p>This narrow interval, which lies far away from zero, indicates that the positive temperature effect is both <strong>stable</strong> and <strong>statistically reliable</strong>.</p>
+<p>Every re-sampled dataset tells the same story:</p>
+<blockquote class="blockquote">
+<p><strong>Warmer days produce more 311 rodent complaints — reliably, consistently, and strongly.</strong></p>
+</blockquote>
+</section>
+<section id="regression-diagnostics" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="regression-diagnostics"><span class="header-section-number">8.3</span> Regression Diagnostics</h2>
+<p>Regression diagnostics confirm whether model assumptions are acceptable.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="individual_report_files/figure-html/diag_plots-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Residual plots suggest:</p>
+<ul>
+<li>Mild heteroskedasticity is expected because complaints are count data.</li>
+<li>Slight right-tail deviations occur during unusually high-complaint days (summer spikes).</li>
+<li>No high-leverage outliers distort the fit.</li>
+</ul>
+<p><strong>Interpretation</strong>:There is nothing unusual or concerning in the residuals. The linear model behaves well, meaning:</p>
+<blockquote class="blockquote">
+<p>The estimated weather effects are trustworthy and not driven by artifacts in the data.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Limitations and Possible Objections
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Weather is not the only factor influencing outdoor visibility or complaint behavior.</p>
+<p>For example, holidays, snowstorms, school calendars, or COVID-era disruptions may also alter human mobility in ways correlated with temperature.</p>
+<p>Despite these concerns, the strong and stable temperature and precipitation effects, confirmed through bootstrapping, permutation testing, and diagnostics suggest that the estimated weather reporting relationship reflects a <strong>true structural mechanism</strong>, not random fluctuation or confounding.</p>
+<p>Weather does not explain <em>everything</em>, but it explains <strong>a surprisingly large share</strong> of day-to-day complaint variation. This means 311 data, without weather normalization, can easily exaggerate or hide rat problems simply because of human behavior.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="interpretation-and-connection-to-the-overarching-question" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Interpretation and Connection to the Overarching Question</h1>
+<p>The statistical results all point to a consistent conclusion: <strong>weather exerts a meaningful and measurable influence on how often New Yorkers report seeing rats</strong>. Warmer temperatures are associated with higher complaint counts, while precipitation reliably suppresses reporting. This pattern appears in every part of the analysis, the exploratory plots, the correlation, the regression model, the permutation test, and the bootstrap intervals which together show that the relationship is not accidental or driven by a handful of extreme days.</p>
+<p>These findings clarify what 311 complaints actually represent. Because people are outside more often during warm, dry conditions, they have more opportunities to notice and report rodents. As a result, complaint volume reflects a combination of <strong>true rat activity</strong> and <strong>human visibility and reporting behavior</strong>. The statistical models indicate that nearly one-third of daily variation in complaints can be explained simply by temperature and rain, which is a large effect in urban behavioral data. This means that raw complaint counts are not neutral indicators of rat populations they are partially shaped by environmental conditions that affect human behavior independently of rats themselves. Understanding this helps link this component directly to the group’s overarching question, which requires distinguishing ecological rat risk from reporting bias.</p>
+</section>
+<section id="research-implications" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Research Implications</h1>
+<p>The results have direct implications for how New York City interprets and responds to rodent complaint data.</p>
+<ol type="1">
+<li><p>311 complaints cannot be treated as a clean measure of rat abundance, because weather conditions can inflate or suppress reporting even when rat populations are unchanged. A warm, dry week may appear as a “rat surge,” while a rainy spell may look like a successful mitigation period, even though neither necessarily reflects underlying ecological shifts.</p></li>
+<li><p>Weather adjustment becomes essential when comparing neighborhoods. Areas where residents spend more time outdoors or where weather patterns create more opportunities for observation will naturally generate more complaints, even if rat conditions are identical. Without accounting for this, some neighborhoods may appear disproportionately “rattier” simply because complaints respond more strongly to favorable visibility conditions.</p></li>
+<li><p>The Weather Favorability Score (WFS) developed here offers a simple and scalable way to incorporate weather into downstream analyses. Because it standardizes temperature and precipitation on a common scale, WFS can be folded into the group’s Objective Rat Condition Index (ORCI) and used to help separate <strong>environmental drivers of rat activity</strong> from <strong>behavioral drivers of reporting</strong>. This component therefore provides the methodological starting point for any city-level attempt to quantify reporting bias in rodent complaints.</p></li>
+</ol>
+</section>
+<section id="conclusion" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Conclusion</h1>
+<p>This analysis provides clear evidence that temperature and precipitation shape 311 rodent complaint patterns in systematic and statistically robust ways. Warmer days consistently produce higher complaint counts, while rainfall reliably depresses reporting. These effects hold across multiple statistical methods, including permutation testing and bootstrapped confidence intervals, demonstrating that the weather–complaint relationship is both real and stable.</p>
+<p>Because weather explains a sizable share of day-to-day complaint variation, it must be treated as a major confounder when interpreting 311 data. The Weather Favorability Score (WFS) offers a practical tool for quantifying these patterns and adjusting complaint data accordingly. By establishing how strongly weather influences reporting behavior, this component provides a crucial foundation for distinguishing <strong>true rat risk</strong> from <strong>reporting-driven apparent risk</strong>, and supports the group’s broader effort to build a fair and accurate model of rodent conditions across New York City.</p>
+<hr>
+<div style="text-align:center; font-size:0.85em; color:gray; margin-top:20px;">
+<p>This work ©2025 was initially prepared as a Course-Project for <strong>STA 9750</strong> at <strong>Baruch College</strong>.<br>More details about the course can be found at the <a href="https://michael-weylandt.com/STA9750/">course site</a>, and full assignment instructions are available under <a href="https://michael-weylandt.com/STA9750/project.html">Course Project</a>.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/shreyakarki71\.github\.io\/STA9750-2025-FALL\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
