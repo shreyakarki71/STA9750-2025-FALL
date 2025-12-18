@@ -46,13 +46,13 @@ Among all factors examined, weather emerges as one of the most statistically sig
 Complaints follow New York City’s temperature cycle, reaching their lowest levels in winter and peaking in summer. Importantly, this effect is not purely seasonal. Even within the same month, sunny days consistently generate more complaints than rainy days, regardless of season.
 
 ```{r seasonal-chart,echo=FALSE,fig.cap="Monthly complaint patterns show clear seasonal peaks in summer and troughs in winter.", fig.align="center", out.width="100%"}
-knitr::include_graphics("data/final_project/monthly_complaints.png")
+knitr::include_graphics("docs/data/final_project/monthly_complaints.png")
 ```
 
 Statistical models indicate that weather explains a substantial share of daily variation in complaint volume. These findings suggest that weather primarily influences rat visibility and human exposure, rather than underlying rat abundance.
 
 ```{r weather-type-chart,echo=FALSE,fig.cap="Warm, dry days generate substantially more 311 rodent complaints than cold or wet days.",fig.align="center",out.width="100%"}
-knitr::include_graphics("data/final_project/weather_type.png")
+knitr::include_graphics("docs/data/final_project/weather_type.png")
 ```
 
 These findings indicate that weather primarily influences rat visibility and human exposure, not necessarily rat abundance. Without adjusting for weather, summer complaint spikes may be misinterpreted as worsening infestations rather than increased outdoor activity. To address this, we construct a Weather Favorability Score that standardizes temperature and precipitation effects, allowing complaint data to be interpreted more accurately. 
@@ -67,7 +67,7 @@ For the full statistical models, code, and detailed methodology, see:
 Regression analysis of New York City neighborhoods reveals a significant limitation of using 311 complaint data as a proxy for rodent activity: demographic factors influence complaint rates almost as much as the actual presence of rats. Demographic characteristics alone explain 18.8% of the variation in 311 complaint rates. As a result, two neighborhoods with similar underlying rat populations can generate vastly different numbers of complaints due to differences in income, education, and civic engagement patterns.
 
 ```{r demographic-bivariate, echo=FALSE,fig.cap="Bivariate relationships between neighborhood demographic characteristics and 311 rodent complaint rates per 1,000 residents.",fig.align="center", out.width="100%"}
-knitr::include_graphics("data/final_project/bivarate relationship.png")
+knitr::include_graphics("docs/data/final_project/bivarate relationship.png")
 ```
 
 These findings challenge common assumptions about reporting behavior. Notably, income and education have opposite effects. Higher-income neighborhoods file significantly fewer complaints, likely because wealthier residents have the time and financial resources to hire private exterminators or resolve issues through building management rather than reporting to 311. In contrast, neighborhoods with higher proportions of college-educated residents file significantly more complaints, suggesting that education increases civic engagement and familiarity with government reporting systems.
@@ -76,7 +76,7 @@ Language barriers show no statistically significant effect, indicating that mult
 
 ```{r demographic-predictors, echo=FALSE, fig.cap="Correlation between neighborhood demographic characteristics and 311 rodent complaint rates per 1,000 residents.",fig.align="center", out.width="100%"}
 
-knitr::include_graphics("data/final_project/demographic predictors.png")
+knitr::include_graphics("docs/data/final_project/demographic predictors.png")
 ```
 
 This reporting bias raises important equity and public health concerns. If pest control resources are allocated based solely on complaint volume, agencies risk over-serving highly educated neighborhoods while under-serving both lower-education areas and high-income neighborhoods where rodent problems are addressed privately. Communities facing genuine public health threats from rodent infestations may therefore remain underrepresented in official data simply because residents are less likely to file complaints.
@@ -100,14 +100,14 @@ The choropleth map shows that the highest volumes of rat complaints are concentr
 
 ```{r park-map, echo=FALSE,fig.cap="Spatial distribution of 311 rodent complaints across NYC neighborhoods with park boundaries overlaid. Complaint hotspots are concentrated in dense residential and commercial areas rather than park-dominated zones.",fig.align="center",out.width="100%"}
 
-knitr::include_graphics("data/final_project/park land.png")
+knitr::include_graphics("docs/data/final_project/park land.png")
 ```
 
 The ridge plot further indicates that while rat reports frequently occur within several hundred feet of parks, the overall spatial distribution of reports remains remarkably stable over time.
 
 ```{r park-distance-ridge, echo=FALSE,fig.cap="Distribution of 311 rodent reports by distance to nearest park over time. Dashed line indicates the median distance, showing most reports occur well beyond park boundaries.",fig.align="center",out.width="100%"}
 
-knitr::include_graphics("data/final_project/park rat distribution .png")
+knitr::include_graphics("docs/data/final_project/park rat distribution .png")
                         
 ```
 
@@ -115,7 +115,7 @@ The distinction becomes clearer in the proportional stacked bar chart, which sho
 
 ```{r park-distance-share, echo=FALSE,fig.cap="Proportional rat reports by location type and distance to parks (2018–2025). Reports are dominated by residential locations across all distance bands, with the largest share occurring more than 500 feet from parks.",fig.align="center", out.width="100%"}
 
-knitr::include_graphics("data/final_project/blue char.png")
+knitr::include_graphics("docs/data/final_project/blue char.png")
 ```
 
 Statistical results reinforce these visual findings. The bootstrap analysis demonstrated a clear increase in reported rat activity as distance from parks increased. Neighborhoods more than 500 feet from a park area produced an overwhelming majority of rat complaints.
@@ -142,13 +142,13 @@ Using ZCTA-level monthly data from 2010 through August 2025, we compare rat-rela
 Results show strong temperature effects in both cities. 
 
 ```{r}
-knitr::include_graphics("data/final_project/predicted_vs_actual_group1.png")
+knitr::include_graphics("docs/data/final_project/predicted_vs_actual_group1.png")
 ```
 
 Most importantly, New York City consistently reports 20–50 fewer rat complaints per month than comparable Chicago neighborhoods, holding constant environmental and socioeconomic factors. The gap is largest in lower-income neighborhoods and smaller in more affluent areas. 
 
 ```{r}
-knitr::include_graphics("data/final_project/predicted_vs_actual_group5.png")
+knitr::include_graphics("docs/data/final_project/predicted_vs_actual_group5.png")
 ```
 
 These findings indicate that observed differences in rat complaints are driven primarily by institutional reporting structures rather than underlying rat populations. 
@@ -165,13 +165,13 @@ Restaurant-related activity influences 311 rodent complaints primarily through v
 
 ```{r restaurant-rodent-map, echo=FALSE,fig.cap="Density of rodent-related restaurant inspection violations by Neighborhood Tabulation Area (NTA). High concentrations are clustered in Midtown and Lower Manhattan, reflecting dense commercial activity rather than residential complaint hotspots.",fig.align="center",out.width="100%"}
 
-knitr::include_graphics("data/final_project/restaurant_rodent_density_map.png")
+knitr::include_graphics("docs/data/final_project/restaurant_rodent_density_map.png")
 ```
 
 This divergence highlights a key distinction between regulatory findings and public reporting behavior. Restaurant inspections capture rodent conditions inside establishments, whereas 311 complaints reflect what residents and pedestrians encounter in shared public space. As a result, areas with frequent internal violations are not necessarily the same areas where residents report the most rodent activity.
 
 ```{r outdoor-seating-vs-complaints, echo=FALSE,fig.cap="Relationship between 311 rodent complaint density and outdoor seating application density by NTA. The positive but modest correlation indicates that visible street-level dining infrastructure is more strongly associated with complaints than internal restaurant violations.",fig.align="center",out.width="100%"}
-knitr::include_graphics("data/final_project/outdoor_seating_vs_complaints.png")
+knitr::include_graphics("docs/data/final_project/outdoor_seating_vs_complaints.png")
 ```
 
 The expansion of outdoor dining aligns more closely with public reporting patterns than restaurant inspection outcomes. Neighborhoods with higher concentrations of outdoor dining structures tend to report more rodent complaints, indicating that street-level exposure, visible food sources, and public waste accumulation drive reporting behavior more than unseen kitchen conditions.
@@ -192,14 +192,14 @@ To examine whether 311 rodent complaints reflect actual rat activity or resident
 
 ```{r fig.cap="Effect of passed rodent inspections on 311 rodent complaints across spatial scales. Localized 150-meter areas show a clear decline in complaints following a passed inspection, while effects weaken and become less precise at larger spatial aggregations.",fig.align="center",out.width="100%"}
 
-knitr::include_graphics("data/final_project/spatial_scale_effects.png")
+knitr::include_graphics("docs/data/final_project/spatial_scale_effects.png")
 ```
 
 In this comparative point plot, each point shows the estimated change in complaint levels before and after a passed rodent inspection, with the uncertainty intervals indicating the confidence of the estimate. Community district estimates are not shown because at this level of aggregation, the estimated post-inspection effect is unstable and extremely large.  Although New York City uses community district–level 311 rodent complaints as a component in designate Rat Mitigation Zones, the results indicate that this level of aggregation obscures local rat conditions and weakens the link between complaints and actual rodent activity. 
 
 ```{r fig.cap="Interpretive summary showing how increasing spatial aggregation distorts the relationship between rodent inspections and 311 complaint signals. Clear local effects become ambiguous at the NTA level and unstable at the community district scale.",fig.align="center",out.width="100%"}
 
-knitr::include_graphics("data/final_project/spatial_aggregation_distortion.png")
+knitr::include_graphics("docs/data/final_project/spatial_aggregation_distortion.png")
 
 ```
 
