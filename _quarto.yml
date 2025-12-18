@@ -7,7 +7,8 @@ project:
     - mp02.qmd
     - mp03.qmd
     - mp04.qmd
-    - individual_report.qmd   
+    - individual_report.qmd
+    - final_project.qmd   # ← ADD THIS
 
 website:
   title: "STA 9750"
@@ -29,7 +30,11 @@ website:
             href: mp04.html
 
       - text: "Course Project"
-        href: individual_report.html
+        menu:
+          - text: "Individual Report"
+            href: individual_report.html
+          - text: "Group Summary"
+            href: final_project.html
 
 format:
   html:
