@@ -179,7 +179,7 @@ Although the  relationship is modest, it is consistently stronger than the assoc
 ::: {.callout-note title="Complete Technical Analysis Available"}
 
 For the full statistical models, code, and detailed methodology: 
-[Wing's Individual Report](https://ghirschhorn.github.io/STA9750-2025-FALL/final.html)
+[Wing's Individual Report](https://git4wing.github.io/STA9750-2025-FALL/Final_individual.html#introduction)
 
 ::: 
 
